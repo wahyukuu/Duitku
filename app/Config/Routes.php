@@ -8,9 +8,16 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'Home::index');
 
 //controller Auth
+$routes->get('/', 'Auth::login');
 $routes->get('login', 'Auth::login');
 $routes->post('/auth/masuk', 'Auth::masuk');
 $routes->get('/auth/keluar', 'Auth::logout');
+
+// AREA YANG BUTUH LOGIN
+$routes->group('', ['filter' => 'auth'], function ($routes) {
+  $routes->get('dashboard', 'Dashboard::index');
+});
+
 //agar level user biasa gabisa akses menu2 yang ada di admin
 $routes->group('', ['filter' => ['auth', 'admin']], function ($routes) {
   $routes->get('/', 'Auth::login');
