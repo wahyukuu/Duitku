@@ -22,7 +22,7 @@ $routes->group('', ['filter' => 'auth'], function ($routes) {
 $routes->group('', ['filter' => ['auth', 'admin']], function ($routes) {
   $routes->get('/', 'Auth::login');
   $routes->get('admin', 'Admin::index');
-  $routes->get('kategori', 'kategori::index');
+  $routes->get('kategori', 'Kategori::index');
   $routes->get('rekening', 'Rekening::index');
 });
 
