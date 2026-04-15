@@ -15,10 +15,19 @@
       <p class="text-sm">Total Saldo Saat Ini</p>
       <h2 class="text-xl font-bold text-blue-600">Rp. <?= rupiah($total) ?></h2>
     </div>
-    <div class="p-5 border rounded-xl shadow-sm">
-      <p class="text-sm">Pendapatan Bulan Ini</p>
-      <h2 id="masuk" class="text-xl font-bold text-green-600"></h2>
+
+    <div class="p-5 border rounded-xl shadow-sm flex items-center gap-4">
+      <!-- ICON -->
+      <div class="text-green-600 text-2xl">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </div>
+      <!-- TEXT -->
+      <div>
+        <p class="text-sm">Pendapatan Bulan Ini</p>
+        <h2 id="masuk" class="text-xl font-bold text-green-600"></h2>
+      </div>
     </div>
+
     <div class="p-5 border rounded-xl shadow-sm">
       <p class="text-sm">Pengeluaran Bulan Ini</p>
       <h2 id="keluar" class="text-xl font-bold text-red-600"></h2>
