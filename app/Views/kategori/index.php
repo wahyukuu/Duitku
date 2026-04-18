@@ -29,6 +29,7 @@
     <input
       type="text"
       id="search"
+      name="search"
       placeholder="Cari kategori..."
       class="border rounded px-3 py-2 w-64">
 
@@ -37,6 +38,20 @@
       <option value="Penghasilan">Penghasilan</option>
       <option value="Pengeluaran">Pengeluaran</option>
     </select>
+    <!-- cek apakah ada keyword atau tidak -->
+    <?php
+    $request = \Config\Services::request();
+    $keyword = $request->getVar('search');
+    if ($keyword != '') {
+      $param = "?keyword=" . $keyword;
+    } else {
+      $param = '';
+    }
+    ?>
+    <a class="bg-blue-500 text-white px-4 py-2 rounded" href="/kategori/exportxls<?= $param; ?>">
+      <i class="fas fa-download"></i>
+      Export
+    </a>
 
   </div>
 
@@ -462,5 +477,11 @@
   document.getElementById('filterJenis').addEventListener('change', () => {
     fetchKategori(1);
   });
+
+  function exportExcel() {
+    const keyword = document.getElementById('search').value;
+    fetch()
+    // mulai dari sini
+  }
 </script>
 <?= $this->endSection() ?>

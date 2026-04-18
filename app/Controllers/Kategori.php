@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -12,8 +14,6 @@ class Kategori extends BaseController
      *
      * @return ResponseInterface
      */
-
-
 
     public function index()
     {
@@ -186,4 +186,117 @@ class Kategori extends BaseController
             'message' => 'Data berhasil dihapus'
         ]);
     }
+
+    public function exportxls()
+    {
+        // $kontak = $this->kontak->findAll();
+        $filename = 'Kategori-' . date('d-m-Y') . '.xlsx';
+        $keyword = $this->request->getVar('search');
+        // $db = \Config\Database::connect();
+        $builder = $this->kategori; //cara 1
+        // $builder->join('grup', 'grup.id_grup = kontak.id_grup');
+        // MULAI DARI SINI YA
+        if ($keyword != '') {
+            $builder->like('nama_kontak', $keyword);
+            $builder->orLike('nama_alias', $keyword);
+            $builder->orLike('alamat', $keyword);
+            $builder->orLike('info', $keyword);
+            $builder->orLike('nama_grup', $keyword);
+            $filename = 'Kontak-filter-' . $keyword . '-' . date('d-m-Y') . '.xlsx';
+        }
+        $kontak = $builder->get()->getResultArray();
+
+        $spreadsheet = new Spreadsheet();
+        $activeWorksheet = $spreadsheet->getActiveSheet();
+        $activeWorksheet->setCellValue('A1', 'No');
+        $activeWorksheet->setCellValue('B1', 'Nama Kontak');
+        $activeWorksheet->setCellValue('C1', 'Nama Alias');
+        $activeWorksheet->setCellValue('D1', 'Telepon');
+        $activeWorksheet->setCellValue('E1', 'Email');
+        $activeWorksheet->setCellValue('F1', 'Alamat');
+        $activeWorksheet->setCellValue('G1', 'Info');
+
+        $col = 2; //kolom start 
+        foreach ($kontak as $key => $k) {
+            $activeWorksheet->setCellValue('A' . $col, ($col - 1));
+            $activeWorksheet->setCellValue('B' . $col, $k['nama_kontak']);
+            $activeWorksheet->setCellValue('C' . $col, $k['nama_alias']);
+            $activeWorksheet->setCellValue('D' . $col, $k['telepon']);
+            $activeWorksheet->setCellValue('E' . $col, $k['email']);
+            $activeWorksheet->setCellValue('F' . $col, $k['alamat']);
+            $activeWorksheet->setCellValue('G' . $col, $k['info']);
+            $col++;
+        }
+
+        //agar ada bordernya
+        $styleArray = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['argb' => 'FF000000'],
+                ],
+            ],
+        ];
+        $activeWorksheet->getStyle('A1:G' . ($col - 1))->applyFromArray($styleArray);
+
+        //agar row untuk judul fontnya tebal
+        $activeWorksheet->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $activeWorksheet->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $activeWorksheet->getStyle('A:G')->getFont()->setName('Bookman Old Style');
+        $activeWorksheet->getStyle('A:G')->getFont()->setSize(10);
+        $activeWorksheet->getStyle('A1:G1')->getFont()->setBold(true);
+        $activeWorksheet->getStyle('A1:G1')->getFont()->setSize(14);
+
+
+        //setting agar kolom autosize sesuai panjang tulisan
+        $activeWorksheet->getColumnDimension('A')->setAutoSize(true);
+        $activeWorksheet->getColumnDimension('B')->setAutoSize(true);
+        $activeWorksheet->getColumnDimension('C')->setAutoSize(true);
+        $activeWorksheet->getColumnDimension('D')->setAutoSize(true);
+        $activeWorksheet->getColumnDimension('E')->setAutoSize(true);
+        $activeWorksheet->getColumnDimension('F')->setAutoSize(true);
+        $activeWorksheet->getColumnDimension('G')->setAutoSize(true);
+        $writer = new Xlsx($spreadsheet);
+
+        //agar auto save
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename=' . $filename);
+        header('Cache-Control: max-age=0');
+        $writer->save('php://output');
+        exit();
+    }
+
+    // function importxls()
+    // {
+    //     $file = $this->request->getFile('file_excel');
+    //     $extn = $file->getExtension();
+    //     if ($extn == 'xlsx' || $extn == 'xls') {
+    //         if ($extn == 'xlsx') {
+    //             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xlsx();
+    //         } else {
+    //             $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+    //         }
+    //         $spreadsheet = $reader->load($file);
+    //         $kontak = $spreadsheet->getActiveSheet()->toArray();
+
+    //         foreach ($kontak as $i => $k) {
+    //             if ($i == 0) {
+    //                 continue;
+    //             }
+    //             $data = [
+    //                 'nama_kontak' => $k[1],
+    //                 'nama_alias' => $k[2],
+    //                 'telepon' => $k[3],
+    //                 'email' => $k[4],
+    //                 'alamat' => $k[5],
+    //                 'info' => $k[6],
+    //                 'id_grup' => 2
+    //             ];
+    //             $this->kontak->insert($data);
+    //         }
+    //         return redirect()->to('/kontak')->with('success', 'Import Data berhasil Ditambahkan');
+    //     } else {
+    //         return redirect()->back()->with('error', 'Format File tidak sesuai');
+    //     }
+    // }
 }

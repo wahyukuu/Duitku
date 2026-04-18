@@ -69,6 +69,8 @@ $routes->post('/kategori/simpan', 'Kategori::simpanAjax');
 $routes->get('kategori/show/(:num)', 'Kategori::show/$1');
 $routes->post('kategori/update/(:num)', 'Kategori::update/$1');
 $routes->delete('kategori/delete/(:num)', 'Kategori::delete/$1');
+$routes->get('kategori/exportxls', 'Kategori::exportxls');
+$routes->post('kategori/importxls', 'Kategori::importxls');
 $routes->resource('kategori');
 
 //controller Laporan
