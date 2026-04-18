@@ -11,15 +11,22 @@
 <div class="pt-24 max-w-7xl mx-auto px-6 space-y-6 animate-fade">
   <!-- CARD REKENING -->
   <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-    <div class="p-5 border rounded-xl shadow-sm">
-      <p class="text-sm">Total Saldo Saat Ini</p>
-      <h2 class="text-xl font-bold text-blue-600">Rp. <?= rupiah($total) ?></h2>
+    <div class="p-5 border rounded-xl shadow-sm flex items-center gap-4">
+      <!-- icon -->
+      <div class="text-blue-600 text-5xl">
+        <i class="fa-solid fa-coins"></i>
+      </div>
+      <!-- text -->
+      <div>
+        <p class="text-sm">Total Saldo Saat Ini</p>
+        <h2 class="text-xl font-bold text-blue-600">Rp. <?= rupiah($total) ?></h2>
+      </div>
     </div>
 
     <div class="p-5 border rounded-xl shadow-sm flex items-center gap-4">
       <!-- ICON -->
-      <div class="text-green-600 text-2xl">
-        <i class="fa-solid fa-right-from-bracket"></i>
+      <div class="text-green-600 text-5xl">
+        <i class="fa-solid fa-wallet"></i>
       </div>
       <!-- TEXT -->
       <div>
@@ -28,13 +35,27 @@
       </div>
     </div>
 
-    <div class="p-5 border rounded-xl shadow-sm">
-      <p class="text-sm">Pengeluaran Bulan Ini</p>
-      <h2 id="keluar" class="text-xl font-bold text-red-600"></h2>
+    <div class="p-5 border rounded-xl shadow-sm flex items-center gap-4">
+      <!-- icon -->
+      <div class="text-red-600 text-5xl">
+        <i class="fa-solid fa-cart-shopping"></i>
+      </div>
+      <!-- text -->
+      <div>
+        <p class="text-sm">Pengeluaran Bulan Ini</p>
+        <h2 id="keluar" class="text-xl font-bold text-red-600"></h2>
+      </div>
     </div>
-    <div class="p-5 border rounded-xl shadow-sm">
-      <p class="text-sm">Saldo Rekening Utama</p>
-      <h2 class="text-xl font-bold text-orange-600">Rp. <?= rupiah($utama['saldo']) ?></h2>
+    <div class="p-5 border rounded-xl shadow-sm flex items-center gap-4">
+      <!-- icon -->
+      <div class="text-orange-600 text-5xl">
+        <i class="fa-solid fa-money-check"></i>
+      </div>
+      <!-- text -->
+      <div>
+        <p class="text-sm">Saldo Rekening Utama</p>
+        <h2 class="text-xl font-bold text-orange-600">Rp. <?= rupiah($utama['saldo']) ?></h2>
+      </div>
     </div>
   </div>
 
