@@ -8,91 +8,139 @@
 
 <!-- merender conten halaman -->
 <?= $this->section('content') ?>
-<div class="pt-24 max-w-7xl mx-auto px-6 space-y-6 animate-fade">
-  <!-- CARD REKENING -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-    <div class="p-5 border rounded-xl shadow-sm flex items-center gap-4">
-      <!-- icon -->
-      <div class="text-blue-600 text-5xl">
+<div class="pt-24 max-w-7xl mx-auto px-6 space-y-8 animate-fade">
+
+  <!-- CARD -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+
+    <!-- CARD 1 -->
+    <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
+      <div class="text-blue-600 text-4xl bg-blue-100 p-3 rounded-xl">
         <i class="fa-solid fa-coins"></i>
       </div>
-      <!-- text -->
       <div>
-        <p class="text-sm">Total Saldo Saat Ini</p>
+        <p class="text-sm text-gray-500">Total Saldo</p>
         <h2 class="text-xl font-bold text-blue-600">Rp. <?= rupiah($total) ?></h2>
       </div>
     </div>
 
-    <div class="p-5 border rounded-xl shadow-sm flex items-center gap-4">
-      <!-- ICON -->
-      <div class="text-green-600 text-5xl">
+    <!-- CARD 2 -->
+    <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
+      <div class="text-green-600 text-4xl bg-green-100 p-3 rounded-xl">
         <i class="fa-solid fa-wallet"></i>
       </div>
-      <!-- TEXT -->
       <div>
-        <p class="text-sm">Pendapatan Bulan Ini</p>
+        <p class="text-sm text-gray-500">Pendapatan Bulan Ini</p>
         <h2 id="masuk" class="text-xl font-bold text-green-600"></h2>
       </div>
     </div>
 
-    <div class="p-5 border rounded-xl shadow-sm flex items-center gap-4">
-      <!-- icon -->
-      <div class="text-red-600 text-5xl">
+    <!-- CARD 3 -->
+    <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
+      <div class="text-red-600 text-4xl bg-red-100 p-3 rounded-xl">
         <i class="fa-solid fa-cart-shopping"></i>
       </div>
-      <!-- text -->
       <div>
-        <p class="text-sm">Pengeluaran Bulan Ini</p>
+        <p class="text-sm text-gray-500">Pengeluaran Bulan Ini</p>
         <h2 id="keluar" class="text-xl font-bold text-red-600"></h2>
       </div>
     </div>
-    <div class="p-5 border rounded-xl shadow-sm flex items-center gap-4">
-      <!-- icon -->
-      <div class="text-orange-600 text-5xl">
+
+    <!-- CARD 4 -->
+    <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
+      <div class="text-orange-600 text-4xl bg-orange-100 p-3 rounded-xl">
         <i class="fa-solid fa-money-check"></i>
       </div>
-      <!-- text -->
       <div>
-        <p class="text-sm">Saldo Rekening Utama</p>
+        <p class="text-sm text-gray-500">Rekening Utama</p>
         <h2 class="text-xl font-bold text-orange-600">Rp. <?= rupiah($utama['saldo']) ?></h2>
       </div>
     </div>
+
   </div>
 
-  <!-- MODAL LOGOUT -->
-  <div
-    id="modalLogout"
-    class="hidden fixed inset-0 bg-black/40 flex items-center justify-center">
-    <div class="bg-white p-6 rounded-xl w-full max-w-sm animate-slide">
-      <p class="mb-4">Yakin ingin logout?</p>
-      <div class="flex justify-end gap-2">
-        <button onclick="closeLogout()">Batal</button>
-        <button class="bg-red-600 text-white px-4 py-2 rounded" onclick="window.location.href='<?= base_url('/auth/keluar') ?>'">
-          Logout
-        </button>
+  <!-- TABLE SECTION -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+    <!-- TABLE -->
+    <div class="md:col-span-3 p-6 border rounded-2xl shadow-sm bg-white">
+
+      <!-- HEADER -->
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Transaksi Terakhir</h2>
+        <button class="text-sm text-blue-600 hover:underline">Lihat Semua</button>
+      </div>
+
+      <!-- TABLE -->
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm border-collapse tabular-nums">
+
+          <thead>
+            <tr class="bg-gray-100 text-gray-600">
+              <th class="p-3 text-left">Tanggal</th>
+              <th class="p-3 text-left">Bidang</th>
+              <th class="p-3 text-left">Rincian</th>
+              <th class="p-3 text-left">Deskripsi</th>
+              <th class="p-3 text-left">Rekening</th>
+              <th class="p-3 text-right">Jumlah</th>
+            </tr>
+          </thead>
+
+          <tbody id="transaksiBody" class="divide-y">
+
+            <tr class="hover:bg-gray-50">
+              <td class="p-3">12/04/2026</td>
+              <td class="p-3">Makan</td>
+              <td class="p-3">Warung</td>
+              <td class="p-3 text-gray-500">Makan siang</td>
+              <td class="p-3">BCA</td>
+              <td class="p-3 text-right font-medium tabular-nums text-red-600">-Rp 25.000</td>
+            </tr>
+
+            <tr class="hover:bg-gray-50">
+              <td class="p-3">11/04/2026</td>
+              <td class="p-3">Gaji</td>
+              <td class="p-3">Kantor</td>
+              <td class="p-3 text-gray-500">Gaji bulanan</td>
+              <td class="p-3">BCA</td>
+              <td class="p-3 text-right font-medium tabular-nums text-green-600">+Rp 5.000.000</td>
+            </tr>
+
+          </tbody>
+
+        </table>
       </div>
     </div>
+
+    <!-- SIDE CARD -->
+    <div class="p-6 border rounded-2xl shadow-sm bg-white flex flex-col justify-center items-center text-center">
+      <p class="text-gray-500 text-sm mb-2">Insight</p>
+      <h3 class="text-lg font-semibold">Keuangan Stabil 👍</h3>
+      <p class="text-sm text-gray-400 mt-2">Pengeluaran masih terkendali bulan ini</p>
+    </div>
+
   </div>
+</div>
 
-  <script>
-    function loadTotalBulanIni() {
-      fetch("<?= base_url('dashboard/total') ?>", {
-          headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-          }
-        })
-        .then(res => res.json())
-        .then(res => {
+<script>
+  function loadTotalBulanIni() {
+    fetch("<?= base_url('dashboard/total') ?>", {
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(res => res.json())
+      .then(res => {
 
-          document.getElementById('keluar').innerText =
-            'Rp ' + Number(res.pengeluaran).toLocaleString('id-ID');
+        document.getElementById('keluar').innerText =
+          'Rp ' + Number(res.pengeluaran).toLocaleString('id-ID');
 
-          document.getElementById('masuk').innerText =
-            'Rp ' + Number(res.penghasilan).toLocaleString('id-ID');
+        document.getElementById('masuk').innerText =
+          'Rp ' + Number(res.penghasilan).toLocaleString('id-ID');
 
-        });
-    }
+      });
+  }
 
-    loadTotalBulanIni();
-  </script>
-  <?= $this->endSection() ?>
+  loadTotalBulanIni();
+</script>
+<?= $this->endSection() ?>

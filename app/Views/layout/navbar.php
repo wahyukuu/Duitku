@@ -21,6 +21,13 @@
           Transaksi</a>
       </li>
       <?php if (session('level') == 'Admin') : ?>
+        <li class="hover:bg-blue-200 px-3 py-2 rounded transition">
+          <a href="/aset">
+            Aset
+          </a>
+        </li>
+      <?php endif; ?>
+      <?php if (session('level') == 'Admin') : ?>
         <li class="hover:bg-green-200 px-3 py-2 rounded transition">
           <a href="/rekening">
             Rekening

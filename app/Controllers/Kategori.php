@@ -190,41 +190,35 @@ class Kategori extends BaseController
     public function exportxls()
     {
         // $kontak = $this->kontak->findAll();
-        $filename = 'Kategori-' . date('d-m-Y') . '.xlsx';
+        $filename = 'Kategori-' . date('d-m-Y_H-i-s') . '.xlsx';
         $keyword = $this->request->getVar('search');
-        // $db = \Config\Database::connect();
         $builder = $this->kategori; //cara 1
         // $builder->join('grup', 'grup.id_grup = kontak.id_grup');
         // MULAI DARI SINI YA
         if ($keyword != '') {
-            $builder->like('nama_kontak', $keyword);
-            $builder->orLike('nama_alias', $keyword);
-            $builder->orLike('alamat', $keyword);
-            $builder->orLike('info', $keyword);
-            $builder->orLike('nama_grup', $keyword);
-            $filename = 'Kontak-filter-' . $keyword . '-' . date('d-m-Y') . '.xlsx';
+            $builder->like('jenis', $keyword);
+            $builder->orLike('bidang', $keyword);
+            $builder->orLike('rincian', $keyword);
+            $builder->orLike('deskripsi', $keyword);
+            $filename = 'Kategori-' . $keyword . '-' . date('d-m-Y') . '.xlsx';
         }
-        $kontak = $builder->get()->getResultArray();
+        $kategori = $builder->get()->getResultArray();
 
         $spreadsheet = new Spreadsheet();
         $activeWorksheet = $spreadsheet->getActiveSheet();
         $activeWorksheet->setCellValue('A1', 'No');
-        $activeWorksheet->setCellValue('B1', 'Nama Kontak');
-        $activeWorksheet->setCellValue('C1', 'Nama Alias');
-        $activeWorksheet->setCellValue('D1', 'Telepon');
-        $activeWorksheet->setCellValue('E1', 'Email');
-        $activeWorksheet->setCellValue('F1', 'Alamat');
-        $activeWorksheet->setCellValue('G1', 'Info');
+        $activeWorksheet->setCellValue('B1', 'Jenis');
+        $activeWorksheet->setCellValue('C1', 'Bidang');
+        $activeWorksheet->setCellValue('D1', 'Rincian');
+        $activeWorksheet->setCellValue('E1', 'Deskripsi');
 
         $col = 2; //kolom start 
-        foreach ($kontak as $key => $k) {
+        foreach ($kategori as $key => $k) {
             $activeWorksheet->setCellValue('A' . $col, ($col - 1));
-            $activeWorksheet->setCellValue('B' . $col, $k['nama_kontak']);
-            $activeWorksheet->setCellValue('C' . $col, $k['nama_alias']);
-            $activeWorksheet->setCellValue('D' . $col, $k['telepon']);
-            $activeWorksheet->setCellValue('E' . $col, $k['email']);
-            $activeWorksheet->setCellValue('F' . $col, $k['alamat']);
-            $activeWorksheet->setCellValue('G' . $col, $k['info']);
+            $activeWorksheet->setCellValue('B' . $col, $k['jenis']);
+            $activeWorksheet->setCellValue('C' . $col, $k['bidang']);
+            $activeWorksheet->setCellValue('D' . $col, $k['rincian']);
+            $activeWorksheet->setCellValue('E' . $col, $k['deskripsi']);
             $col++;
         }
 
@@ -237,16 +231,16 @@ class Kategori extends BaseController
                 ],
             ],
         ];
-        $activeWorksheet->getStyle('A1:G' . ($col - 1))->applyFromArray($styleArray);
+        $activeWorksheet->getStyle('A1:E' . ($col - 1))->applyFromArray($styleArray);
 
         //agar row untuk judul fontnya tebal
-        $activeWorksheet->getStyle('A1:G1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
-        $activeWorksheet->getStyle('A1:G1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-        $activeWorksheet->getStyle('A:G')->getFont()->setName('Bookman Old Style');
-        $activeWorksheet->getStyle('A:G')->getFont()->setSize(10);
-        $activeWorksheet->getStyle('A1:G1')->getFont()->setBold(true);
-        $activeWorksheet->getStyle('A1:G1')->getFont()->setSize(14);
-
+        $activeWorksheet->getStyle('A1:E1')->getAlignment()->setVertical(\PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER);
+        $activeWorksheet->getStyle('A1:E1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $activeWorksheet->getStyle('A')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+        $activeWorksheet->getStyle('A:E')->getFont()->setName('Bookman Old Style');
+        $activeWorksheet->getStyle('A:E')->getFont()->setSize(10);
+        $activeWorksheet->getStyle('A1:E1')->getFont()->setBold(true);
+        $activeWorksheet->getStyle('A1:E1')->getFont()->setSize(14);
 
         //setting agar kolom autosize sesuai panjang tulisan
         $activeWorksheet->getColumnDimension('A')->setAutoSize(true);

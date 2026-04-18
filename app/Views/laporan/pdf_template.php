@@ -134,7 +134,100 @@
     </div>
   </div>
 
-  <h3>A. Laporan Kas Umum</h3>
+  <h3>A. Aset Lancar</h3>
+  <table class="summary">
+    <tr>
+      <td class="label">Total Piutang Belum Dibayar</td>
+      <td class="value piutang">
+        Rp <?= number_format($piutang, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Saldo Rekening Operasional</td>
+      <td class="value operasional">
+        Rp <?= number_format($operasional, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr class="saldo-row">
+      <td class="label saldo">Saldo Seluruh Rekening</td>
+      <td class="value saldo">
+        Rp <?= number_format($saldo, 0, ',', '.') ?>
+      </td>
+    </tr>
+  </table>
+
+  <!-- bagian Rencana/Pembiayaan/Investasi -->
+  <h3>B. Aset Rencana/Investasi</h3>
+  <table class="summary">
+    <tr>
+      <td class="label">Total Rencana</td>
+      <td class="value rencana">
+        Rp <?= number_format($rencana, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Total Investasi</td>
+      <td class="value rencana">
+        Rp <?= number_format($rencana, 0, ',', '.') ?>
+      </td>
+    </tr>
+  </table>
+
+  <!-- bagian Aset Tetap -->
+  <h3>B. Aset Tetap</h3>
+  <table class="summary">
+    <tr>
+      <td class="label">Tanah/Ladang/Sawah</td>
+      <td class="value rencana">
+        Rp <?= number_format($rencana, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Rumah/Gedung</td>
+      <td class="value rencana">
+        Rp <?= number_format($rencana, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Kendaraan</td>
+      <td class="value rencana">
+        Rp <?= number_format($rencana, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Peralatan</td>
+      <td class="value rencana">
+        Rp <?= number_format($rencana, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Aset Lainnya</td>
+      <td class="value rencana">
+        Rp <?= number_format($rencana, 0, ',', '.') ?>
+      </td>
+    </tr>
+  </table>
+
+  <!-- bagian HUTANG -->
+  <h3>C. Kewajiban</h3>
+  <table class="summary">
+    <tr>
+      <td class="label">Total Hutang</td>
+      <td class="value hutang">
+        Rp <?= number_format($hutang, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Total Hutang Belum Dibayar</td>
+      <td class="value hutang">
+        Rp <?= number_format($hutang, 0, ',', '.') ?>
+      </td>
+    </tr>
+
+  </table>
+
+  <!-- bagian ARUS KAS -->
+  <h3>D. Arus Kas</h3>
   <table class="summary">
     <tr>
       <td class="label">Total Pemasukan</td>
@@ -151,46 +244,24 @@
 
   </table>
 
-  <!-- bagian Rencana/Pembiayaan/Investasi -->
-  <h3>B. Laporan Rencana/Investasi</h3>
-  <table class="summary">
-    <tr>
-      <td class="label">Total Rencana</td>
-      <td class="value rencana">
-        Rp <?= number_format($rencana, 0, ',', '.') ?>
-      </td>
-    </tr>
-  </table>
-
-
-  <!-- bagian HUTANG -->
-  <h3>C. Laporan Hutang/Piutang</h3>
-  <table class="summary">
-    <tr>
-      <td class="label">Total Hutang Belum Bayar</td>
-      <td class="value hutang">
-        Rp <?= number_format($hutang, 0, ',', '.') ?>
-      </td>
-    </tr>
-    <tr>
-      <td class="label">Total Piutang Belum Dibayar</td>
-      <td class="value piutang">
-        Rp <?= number_format($piutang, 0, ',', '.') ?>
-      </td>
-    </tr>
-  </table>
-
   <!-- bagian Total HARTA -->
-  <h3>D. Total Saldo/Harta</h3>
+  <h3>E. Total Kekayaan</h3>
   <table class="summary">
-    <tr>
-      <td class="label">Sisa Saldo Operasional</td>
-      <td class="value operasional">
-        Rp <?= number_format($operasional, 0, ',', '.') ?>
+
+    <tr class="saldo-row">
+      <td class="label saldo">Total Nilai Aset</td>
+      <td class="value saldo">
+        Rp <?= number_format($saldo, 0, ',', '.') ?>
       </td>
     </tr>
     <tr class="saldo-row">
-      <td class="label saldo">Total Saldo Seluruh Rekening Saat Ini</td>
+      <td class="label saldo">Total Kewajiban</td>
+      <td class="value saldo">
+        Rp <?= number_format($saldo, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr class="saldo-row">
+      <td class="label saldo">Total Kekayaan Saat Ini</td>
       <td class="value saldo">
         Rp <?= number_format($saldo, 0, ',', '.') ?>
       </td>

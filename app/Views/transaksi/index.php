@@ -32,6 +32,11 @@
       class="bg-green-600 text-white px-4 py-2 rounded">
       <i class="fa fa-plus"></i> Tambah
     </button>
+    <button
+      onclick="exportxls();"
+      class="bg-blue-600 text-white px-4 py-2 rounded">
+      <i class="fa fa-download"></i> Export Excel
+    </button>
   </div>
 
   <!-- TABLE -->
