@@ -185,6 +185,37 @@ class TransaksiModel extends Model
         return $saldo;
     }
 
+    //total jumlah rencana/investasi
+    public function totalRencana()
+    {
+        return $this->selectSum('jumlah')
+            ->where('rincian', 'Rencana')
+            ->get()
+            ->getRow()
+            ->jumlah ?? 0;;
+    }
+
+    public function totalInvestasi()
+    {
+        return $this->selectSum('jumlah')
+            ->where('rincian', 'Rencana')
+            ->get()
+            ->getRow()
+            ->jumlah ?? 0;;
+    }
+
+    //total jumlah hutang
+    public function totalHutang()
+    {
+        return $this->selectSum('jumlah')
+            ->where('jenis', 'Penghasilan')
+            ->where('bidang', 'Penghasilan Non PNS')
+            ->where('rincian', 'Hutang')
+            ->get()
+            ->getRow()
+            ->jumlah ?? 0;;
+    }
+
     // hitung sisa hutang yang harus dibayar
     public function jlhSisaHutang()
     {
@@ -212,6 +243,18 @@ class TransaksiModel extends Model
             ->jumlah ?? 0;
 
         return (int) $hutang - (int) $bayar;
+    }
+
+    //total jumlah piutang
+    public function totalPiutang()
+    {
+        return $this->selectSum('jumlah')
+            ->where('jenis', 'Pengeluaran')
+            ->where('bidang', 'Hari Tertentu')
+            ->where('rincian', 'Piutang')
+            ->get()
+            ->getRow()
+            ->jumlah ?? 0;;
     }
 
     // hitung sisa piutang yang belum dibayar orang lain

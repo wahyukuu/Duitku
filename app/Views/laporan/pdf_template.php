@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Cetak Laporan</title>
+  <title>Laporan Keuangan</title>
   <style>
     @page {
       size: A4 portrait;
@@ -124,7 +124,6 @@
   $jam = date('H:i');
   ?>
 
-
   <div class="header-fixed">
     <h1>Laporan Keuangan DuitKu</h1>
     <div class="periode">
@@ -168,7 +167,7 @@
     <tr>
       <td class="label">Total Investasi</td>
       <td class="value rencana">
-        Rp <?= number_format($rencana, 0, ',', '.') ?>
+        Rp <?= number_format($investasi, 0, ',', '.') ?>
       </td>
     </tr>
   </table>
@@ -214,7 +213,7 @@
     <tr>
       <td class="label">Total Hutang</td>
       <td class="value hutang">
-        Rp <?= number_format($hutang, 0, ',', '.') ?>
+        Rp <?= number_format($thutang, 0, ',', '.') ?>
       </td>
     </tr>
     <tr>
@@ -230,7 +229,7 @@
   <h3>D. Arus Kas</h3>
   <table class="summary">
     <tr>
-      <td class="label">Total Pemasukan</td>
+      <td class="label">Total Penghasilan</td>
       <td class="value pemasukan">
         Rp <?= number_format($pemasukan, 0, ',', '.') ?>
       </td>
@@ -257,7 +256,7 @@
     <tr class="saldo-row">
       <td class="label saldo">Total Kewajiban</td>
       <td class="value saldo">
-        Rp <?= number_format($saldo, 0, ',', '.') ?>
+        Rp <?= number_format($thutang, 0, ',', '.') ?>
       </td>
     </tr>
     <tr class="saldo-row">

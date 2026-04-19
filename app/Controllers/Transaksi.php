@@ -540,6 +540,7 @@ class Transaksi extends ResourceController
 
     public function exportPDF()
     {
+        helper('tglindo');
         $request = service('request');
 
         $keyword = $request->getGet('keyword');
@@ -568,7 +569,11 @@ class Transaksi extends ResourceController
                 ->where('tanggal <=', $to);
         }
 
-        $data['transaksi'] = $builder->orderBy('tanggal', 'DESC')->findAll();
+        $data = [
+            'transaksi' => $builder->orderBy('tanggal', 'ASC')->findAll(),
+            'from'      => $from,
+            'to'        => $to
+        ];
 
         // LOAD VIEW
         $html = view('transaksi/pdf_template', $data);

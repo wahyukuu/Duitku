@@ -49,24 +49,17 @@ class Laporan extends BaseController
 
     public function preview()
     {
-
         $from   = $this->request->getGet('from');
         $to     = $this->request->getGet('to');
         $jenis  = $this->request->getGet('jenis');
-        $rencana = ['Mutasi', 'Rencana'];
 
         $transaksi = $this->transaksi
             ->where('tanggal >=', $from)
             ->where('tanggal <=', $to)
-            ->whereNotIn('rincian', $rencana)
+            ->whereNotIn('rincian', ['Mutasi', 'Rencana'])
             ->findAll();
 
-        $prioritas = $this->rekening
-            ->selectSum('saldo')
-            ->where('prioritas', 'Operasional')
-            ->get()
-            ->getRow()
-            ->saldo ?? 0;
+        $prioritas = $this->rekening->getRekeningPrioritas();
 
         $sisahutang = $this->transaksi->jlhSisaHutang();
         $sisapiutang = $this->transaksi->jlhSisaPiutang();
@@ -85,6 +78,13 @@ class Laporan extends BaseController
                 $totalRencana += $trx['jumlah'];
             }
         }
+
+        $totalHutang = $this->transaksi->totalHutang();
+        $totalPiutang = $this->transaksi->totalPiutang();
+        $totalRencana = $this->transaksi->totalRencana();
+        $totalInvestasi = $this->transaksi->totalInvestasi();
+        // $totalAset = $totalSaldo + $totalRencana + $totalInvestasi + $nilaiAsetTetap;
+        // $kewajiban = $thutang;
         $data['from'] = $from ?: date('Y-m-01');
         $data['to']   = $to ?: date('Y-m-t');
         $data = [
@@ -93,10 +93,14 @@ class Laporan extends BaseController
             'pemasukan' => $totalPenghasilan,
             'pengeluaran' => $totalPengeluaran,
             'rencana' => $totalRencana,
-            'operasional' => $prioritas,
+            'operasional' => $prioritas['saldo'],
             'saldo' => $totalSaldo,
+            'thutang' => $totalHutang,
             'hutang' => $sisahutang,
             'piutang' => $sisapiutang,
+            'rencana' => $totalRencana,
+            'investasi' => $totalInvestasi,
+            // 'kekayaan' => $totalAset - $kewajiban,
         ];
 
         helper('tglindo');
@@ -111,7 +115,7 @@ class Laporan extends BaseController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        return $dompdf->stream('laporan.pdf', ['Attachment' => false]);
+        return $dompdf->stream('Laporan.pdf', ['Attachment' => false]);
     }
 
     /**
