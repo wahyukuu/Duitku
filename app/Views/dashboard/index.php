@@ -68,7 +68,24 @@
       <!-- HEADER -->
       <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold">Transaksi Terakhir</h2>
-        <button class="text-sm text-blue-600 hover:underline">Lihat Semua</button>
+
+        <div class="flex items-center gap-3">
+          <form action="" method="get" class="flex items-center gap-3">
+            <select id="perPage" name="perPage"
+              onchange="this.form.submit()"
+              class="border rounded px-2 py-2">
+              <option value="5" <?= ($perPage == 5) ? 'selected' : '' ?>>5</option>
+              <option value="10" <?= ($perPage == 10) ? 'selected' : '' ?>>10</option>
+              <option value="15" <?= ($perPage == 15) ? 'selected' : '' ?>>15</option>
+              <option value="25" <?= ($perPage == 25) ? 'selected' : '' ?>>25</option>
+            </select>
+          </form>
+          <a href="/transaksi"
+            class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 transition duration-200">
+            Lihat Semua
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
       </div>
 
       <!-- TABLE -->
@@ -78,7 +95,7 @@
           <thead>
             <tr class="bg-gray-100 text-gray-600">
               <th class="p-3 text-left">Tanggal</th>
-              <th class="p-3 text-left">Bidang</th>
+              <th class="p-3 text-left">Jenis</th>
               <th class="p-3 text-left">Rincian</th>
               <th class="p-3 text-left">Deskripsi</th>
               <th class="p-3 text-left">Rekening</th>
@@ -87,27 +104,21 @@
           </thead>
 
           <tbody id="transaksiBody" class="divide-y">
-
-            <tr class="hover:bg-gray-50">
-              <td class="p-3">12/04/2026</td>
-              <td class="p-3">Makan</td>
-              <td class="p-3">Warung</td>
-              <td class="p-3 text-gray-500">Makan siang</td>
-              <td class="p-3">BCA</td>
-              <td class="p-3 text-right font-medium tabular-nums text-red-600">-Rp 25.000</td>
-            </tr>
-
-            <tr class="hover:bg-gray-50">
-              <td class="p-3">11/04/2026</td>
-              <td class="p-3">Gaji</td>
-              <td class="p-3">Kantor</td>
-              <td class="p-3 text-gray-500">Gaji bulanan</td>
-              <td class="p-3">BCA</td>
-              <td class="p-3 text-right font-medium tabular-nums text-green-600">+Rp 5.000.000</td>
-            </tr>
-
+            <?php foreach ($transaksi as $t) : ?>
+              <tr class="hover:bg-gray-50">
+                <td class="p-3"><?= date('d/m/Y', strtotime($t['tanggal'])) ?></td>
+                <td class="p-3"><?= $t['jenis'] ?></td>
+                <td class="p-3"><?= $t['rincian'] ?></td>
+                <td class="p-3 text-gray-500"><?= $t['deskripsi'] ?></td>
+                <td class="p-3"><?= $t['nama_bank'] ?></td>
+                <td class="p-3 text-right font-medium 
+                  <?= ($t['jenis'] == 'Penghasilan') ? 'text-green-600' : 'text-red-600' ?>">
+                  <?= ($t['jenis'] == 'Penghasilan') ? '+' : '-' ?>
+                  Rp <?= number_format($t['jumlah'], 0, ',', '.') ?>
+                </td>
+              </tr>
+            <?php endforeach; ?>
           </tbody>
-
         </table>
       </div>
     </div>

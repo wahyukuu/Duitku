@@ -38,9 +38,7 @@ class TransaksiModel extends Model
     protected $deletedField  = 'deleted_at';
 
     // Validation
-    protected $validationRules      = [
-        
-    ];
+    protected $validationRules      = [];
     protected $validationMessages   = [];
     protected $skipValidation       = false;
     protected $cleanValidationRules = true;
@@ -64,6 +62,13 @@ class TransaksiModel extends Model
     public function getTransaksiById($id_transaksi)
     {
         return $this->find($id_transaksi);
+    }
+
+    public function getTransaksiTerakhir($batas)
+    {
+        return $this->orderBy('id_transaksi', 'DESC')
+            ->limit($batas)
+            ->findAll();
     }
 
     public function updateTransaksi($id_transaksi, $data)
@@ -125,6 +130,15 @@ class TransaksiModel extends Model
         return $this
             ->select('transaksi.*, rekening.nama_bank')
             ->join('rekening', 'rekening.id_rekening = transaksi.id_rekening');
+    }
+
+    public function getTransaksiJoinRekeningLast($batas)
+    {
+        return $this->select('transaksi.*, rekening.nama_bank')
+            ->join('rekening', 'rekening.id_rekening = transaksi.id_rekening')
+            ->orderBy('id_transaksi', 'DESC')
+            ->limit($batas)
+            ->findAll();
     }
 
     public function getSaldoByTanggal($id_rek, $tanggal)

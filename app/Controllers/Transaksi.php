@@ -9,6 +9,7 @@ use App\Models\KategoriModel;
 use App\Models\RencanaModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
+use Dompdf\Dompdf;
 use PHPUnit\Event\Test\AfterTestMethodFinished;
 
 class Transaksi extends ResourceController
@@ -97,6 +98,7 @@ class Transaksi extends ResourceController
 
     public function kategoriByRincian($bidang)
     {
+        $bidang = urldecode($bidang);
         $data = $this->kategori
             ->where('rincian', $bidang)
             ->findAll();
@@ -534,5 +536,48 @@ class Transaksi extends ResourceController
             'status' => true,
             'message' => 'Data berhasil dihapus'
         ]);
+    }
+
+    public function exportPDF()
+    {
+        $request = service('request');
+
+        $keyword = $request->getGet('keyword');
+        $bidang  = $request->getGet('bidang');
+        $from    = $request->getGet('from');
+        $to      = $request->getGet('to');
+
+        $builder = $this->transaksi
+            ->select('transaksi.*, rekening.nama_bank')
+            ->join('rekening', 'rekening.id_rekening = transaksi.id_rekening');
+
+        // FILTER 🔽
+        if ($keyword) {
+            $builder->groupStart()
+                ->like('deskripsi', $keyword)
+                ->orLike('rincian', $keyword)
+                ->groupEnd();
+        }
+
+        if ($bidang && $bidang != 'Semua Bidang') {
+            $builder->where('jenis', $bidang);
+        }
+
+        if ($from && $to) {
+            $builder->where('tanggal >=', $from)
+                ->where('tanggal <=', $to);
+        }
+
+        $data['transaksi'] = $builder->orderBy('tanggal', 'DESC')->findAll();
+
+        // LOAD VIEW
+        $html = view('transaksi/pdf_template', $data);
+
+        // DOMPDF
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream("Riwayat_Transaksi.pdf", ["Attachment" => false]);
     }
 }

@@ -17,8 +17,8 @@
       <option value="10">10</option>
       <option value="25">25</option>
     </select>
-    <input type="date" id="dateFilter1" class="border rounded px-3 py-2" />
-    <input type="date" id="dateFilter2" class="border rounded px-3 py-2" />
+    <input type="date" id="dateFilter1" name="from" class="border rounded px-3 py-2" />
+    <input type="date" id="dateFilter2" name="to" class="border rounded px-3 py-2" />
     <input type="text" id="search" placeholder="Cari transaksi..." class="border rounded px-3 py-2 w-64">
     <select id="filterBidang" name="filterBidang" class="border rounded px-3 py-2">
       <option>Semua Bidang</option>
@@ -33,9 +33,9 @@
       <i class="fa fa-plus"></i> Tambah
     </button>
     <button
-      onclick="exportxls();"
+      onclick="exportpdf();"
       class="bg-blue-600 text-white px-4 py-2 rounded">
-      <i class="fa fa-download"></i> Export Excel
+      <i class="fa fa-download"></i> Export PDF
     </button>
   </div>
 
@@ -437,7 +437,7 @@
 
     // ================== PENGHASILAN / PENGELUARAN ==================
     else if (bidang !== '') {
-      fetch(`<?= base_url('transaksi/rincian') ?>/${bidang}`)
+      fetch(`<?= base_url('transaksi/rincian') ?>/${encodeURIComponent(bidang)}`)
         .then(res => res.json())
         .then(data => {
           data.forEach(item => {
@@ -596,6 +596,19 @@
         console.error(err);
         alert('Gagal menghapus data');
       });
+  }
+
+  //cetak Riwayat Transaksi
+  function exportpdf() {
+    const perPage = document.getElementById('perPage').value;
+    const keyword = document.getElementById('search').value;
+    const bidang = document.getElementById('filterBidang').value;
+    const from = document.getElementById('dateFilter1').value;
+    const to = document.getElementById('dateFilter2').value;
+
+    const url = `<?= base_url('transaksi/export') ?>?perPage=${perPage}&keyword=${keyword}&bidang=${bidang}&from=${from}&to=${to}`;
+
+    window.open(url, '_blank');
   }
 </script>
 <?= $this->endSection() ?>

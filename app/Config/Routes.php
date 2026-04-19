@@ -36,13 +36,14 @@ $routes->post('/transaksi/simpan', 'Transaksi::simpanAjax');
 $routes->get('/transaksi/rencana', 'Transaksi::kategoriByRencana');
 $routes->get('/transaksi/rekening', 'Transaksi::semuaRekening');
 $routes->get('/transaksi/tabungan', 'Transaksi::tabunganInvestasi');
-$routes->get('/transaksi/kategori/(:segment)', 'Transaksi::kategoriByBidang/$1');
-$routes->get('/transaksi/rincian/(:segment)', 'Transaksi::kategoriByRincian/$1');
+$routes->get('/transaksi/rincian/(:any)', 'Transaksi::kategoriByRincian/$1');
+$routes->get('/transaksi/kategori/(:any)', 'Transaksi::kategoriByBidang/$1');
 $routes->get('/transaksi/rekening/(:segment)', 'Transaksi::rekeningByBidang/$1');
 $routes->get('transaksi/show/(:num)', 'Transaksi::show/$1');
 $routes->post('transaksi/update/(:num)', 'Transaksi::update/$1');
 $routes->get('transaksi/saldo/(:num)', 'Transaksi::saldoRekening/$1');
 $routes->delete('transaksi/delete/(:num)', 'Transaksi::delete/$1');
+$routes->get('transaksi/export', 'Transaksi::exportPDF');
 $routes->resource('transaksi');
 
 //controller Rekening

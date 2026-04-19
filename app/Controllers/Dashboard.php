@@ -16,11 +16,14 @@ class Dashboard extends BaseController
     {
         $bulan = (int)date('M');
         $tahun = (int)date('Y');
+        $perPage = (int)($this->request->getVar('perPage') ?? 5);
         $data = [
-            'total' => $this->rekening->totalSaldoAllRekening(),
-            'masuk' => $this->transaksi->totalByBulanDanBidang('Penghasilan'),
-            'keluar' => $this->transaksi->totalByBulanDanBidang('Pengeluaran'),
-            'utama' => $this->rekening->getRekeningPrioritas() //pake rekening BSI
+            'total'     => $this->rekening->totalSaldoAllRekening(),
+            'masuk'     => $this->transaksi->totalByBulanDanBidang('Penghasilan'),
+            'keluar'    => $this->transaksi->totalByBulanDanBidang('Pengeluaran'),
+            'utama'     => $this->rekening->getRekeningPrioritas(), //pake rekening BSI
+            'transaksi' => $this->transaksi->getTransaksiJoinRekeningLast($perPage),
+            'perPage'   => $perPage,
             // 'utama' => $this->rekening->countRekeningPrioritas()
         ];
         // dd($data['utama']);
