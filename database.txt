@@ -1,0 +1,10 @@
+tabel ASET
+- id_aset
+- nama_aset (cth. Rumah 1, Sepeda Motor, Ladang, Laptop)
+- jenis_aset (Kendaraan, Bangunan, Tanah, Peralatan, Peralatan Lainnya)
+- cara_perolehan (Pembelian, Hibah, Warisan, Bagi Hasil)
+- tahun_perolehan
+- lokasi
+- detail
+- nilai_perolehan
+- nilai_sekarang

@@ -30,6 +30,9 @@ $routes->group('', ['filter' => ['auth', 'admin']], function ($routes) {
 $routes->get('/dashboard/total', 'Dashboard::getTotalBulanIni');
 $routes->resource('dashboard');
 
+//controller Asset
+$routes->resource('aset');
+
 //controller Transaksi
 $routes->get('/transaksi/data', 'Transaksi::dataAjax');
 $routes->post('/transaksi/simpan', 'Transaksi::simpanAjax');

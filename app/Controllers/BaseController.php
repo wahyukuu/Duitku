@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\AdminModel;
+use App\Models\AsetModel;
 use App\Models\KategoriModel;
 use App\Models\RekeningModel;
 use App\Models\RencanaModel;
@@ -36,6 +37,7 @@ abstract class BaseController extends Controller
     protected $rekening;
     protected $rencana;
     protected $transaksi;
+    protected $aset;
 
     protected $helpers = ['rupiah'];
 
@@ -58,5 +60,6 @@ abstract class BaseController extends Controller
         $this->rekening = new RekeningModel();
         $this->rencana = new RencanaModel();
         $this->transaksi = new TransaksiModel();
+        $this->aset = new AsetModel();
     }
 }

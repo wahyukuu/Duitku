@@ -114,6 +114,8 @@ class Filters extends BaseFilters
                 '/',
                 'admin',
                 'admin/*',
+                'aset',
+                'aset/*',
                 'dashboard',
                 'dashboard/*',
                 'transaksi',
