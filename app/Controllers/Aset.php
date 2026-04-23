@@ -12,7 +12,7 @@ class Aset extends ResourceController
     protected $AsetModel = 'App\Models\AsetModel';
     protected $format = 'json';
 
-    // //cara 2 dengan constructor
+    // //cara 2 dengan constructor (pake yang dikomen di baris 5)
     // protected $aset;
     // public function __construct()
     // {
@@ -25,7 +25,9 @@ class Aset extends ResourceController
      */
     public function index()
     {
-        //
+        //mulai dari sini
+        $data['aset'] = $this->model->findAll();
+        return view('aset/index, $data');
     }
 
     /**
