@@ -31,6 +31,19 @@ $routes->get('/dashboard/total', 'Dashboard::getTotalBulanIni');
 $routes->resource('dashboard');
 
 //controller Asset
+$routes->get('/aset/data', 'Aset::dataAjax');
+$routes->get('/aset/totalNilai', 'Aset::totalNilai');
+$routes->post('/aset/simpan', 'Aset::simpanAjax');
+$routes->get('/aset/rencana', 'Aset::kategoriByRencana');
+$routes->get('/aset/rekening', 'Aset::semuaRekening');
+$routes->get('/aset/tabungan', 'Aset::tabunganInvestasi');
+$routes->get('/aset/rincian/(:any)', 'Aset::kategoriByRincian/$1');
+$routes->get('/aset/kategori/(:any)', 'Aset::kategoriByBidang/$1');
+$routes->get('/aset/rekening/(:segment)', 'Aset::rekeningByBidang/$1');
+$routes->get('aset/show/(:num)', 'Aset::show/$1');
+$routes->get('aset/saldo/(:num)', 'Aset::saldoRekening/$1');
+$routes->delete('aset/delete/(:num)', 'Aset::delete/$1');
+$routes->get('aset/export', 'Transaksi::exportPDF');
 $routes->resource('aset');
 
 //controller Transaksi

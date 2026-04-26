@@ -77,7 +77,6 @@
     <form id="formAdmin">
       <?= csrf_field(); ?>
       <input type="hidden" id="id_admin" name="id_admin">
-
       <input type="text" id="username" name="username" placeholder="username..."
         class="w-full border rounded px-3 py-2 mb-3">
       <small id="errorUsername" class="text-red-500"></small>

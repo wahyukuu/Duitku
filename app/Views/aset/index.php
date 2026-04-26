@@ -12,31 +12,38 @@
 
   <!-- FILTER DATA ASET -->
   <div class="flex flex-wrap gap-4 items-end">
-    <select id="perPage" class="border rounded px-2 py-2">
+    <select id="perPage" class="border rounded-xl px-2 py-2">
       <option value="8">8</option>
       <option value="10">10</option>
       <option value="25">25</option>
     </select>
-    <input type="date" id="dateFilter1" name="from" class="border rounded px-3 py-2" />
-    <input type="date" id="dateFilter2" name="to" class="border rounded px-3 py-2" />
-    <input type="text" id="search" placeholder="Cari transaksi..." class="border rounded px-3 py-2 w-64">
-    <select id="filterAset" name="filterAset" class="border rounded px-3 py-2">
+    <input type="date" id="dateFilter1" name="from" class="border rounded-lg px-3 py-2" />
+    <input type="date" id="dateFilter2" name="to" class="border rounded-lg px-3 py-2" />
+    <input type="text" id="search" placeholder="Cari aset..." class="border rounded-lg px-3 py-2 w-64">
+    <select id="filterAset" name="filterAset" class="border rounded-lg px-3 py-2">
       <option>Semua Aset</option>
       <option value="Kendaraan">Kendaraan</option>
+      <option value="Bangunan">Bangunan</option>
+      <option value="Tanah">Tanah</option>
       <option value="Peralatan">Peralatan</option>
-      <option value="Rumah Gedung">Rumah/Gedung</option>
-      <option value="Tanah Ladang">Tanah/Ladang/Sawah</option>
+      <option value="Mesin">Mesin</option>
+      <option value="Peralatan Lainnya">Peralatan Lainnya</option>
     </select>
     <button
       onclick="resetForm(); openForm()"
-      class="bg-green-600 text-white px-4 py-2 rounded">
-      <i class="fa fa-plus"></i> Tambah
+      class="bg-green-600 text-white px-4 py-2 rounded-lg">
+      <i class="fa fa-plus"></i> Tambah Aset
     </button>
     <button
       onclick="exportpdf();"
-      class="bg-blue-600 text-white px-4 py-2 rounded">
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg">
       <i class="fa fa-download"></i> Export PDF
     </button>
+  </div>
+
+  <div class="p-4 border rounded-xl shadow-sm bg-white w-fit">
+    <p class="text-sm text-gray-500">Total Nilai Aset</p>
+    <h2 id="totalAset" class="text-xl font-bold text-green-600">Rp 0</h2>
   </div>
 
   <!-- TABLE -->
@@ -44,13 +51,14 @@
     <table class="w-full text-sm">
       <thead class="bg-gray-100">
         <tr>
-          <th class="p-3 text-left">Tanggal</th>
+          <th class="p-3 text-left">Nama Aset</th>
           <th class="p-3">Jenis</th>
-          <th class="p-3">Bidang</th>
-          <th class="p-3">Rincian</th>
-          <th class="p-3">Deskripsi</th>
-          <th class="p-3">Rekening</th>
           <th class="p-3">Jumlah</th>
+          <th class="p-3">Satuan</th>
+          <th class="p-3">Cara Perolehan</th>
+          <th class="p-3">Tahun</th>
+          <th class="p-3">Detail</th>
+          <th class="p-3">Nilai Beli</th>
           <th class="p-3">Aksi</th>
         </tr>
       </thead>
@@ -69,41 +77,141 @@
   id="modal-tambah-aset"
   class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50"
   onclick="closeForm()">
-  <div
-    class="bg-white p-6 rounded-xl w-full max-w-md animate-slide"
+
+  <div class="bg-white p-4 rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col"
     onclick="event.stopPropagation()">
-    <h2 class="font-bold mb-4">Form Aset</h2>
-    <form action="" id="formAset">
-      <?= csrf_field(); ?>
-      <!-- mulai dari sini -->
-      <input type="hidden" id="id_transaksi" name="id_transaksi">
-      <input type="hidden" id="id_rencana" name="id_rencana">
-      <input type="date" id="tanggal" name="tanggal" class="w-full border rounded px-3 py-2 mb-3" />
-      <select id="jenis" name="jenis" class="w-full border rounded px-3 py-2 mb-3">
-        <option value="Penghasilan">Penghasilan</option>
-        <option value="Pengeluaran">Pengeluaran</option>
-        <option value="Mutasi">Mutasi</option>
-        <option value="Rencana">Rencana/Investasi</option>
-      </select>
-      <select id="bidang" name="bidang" class="w-full border rounded px-3 py-2 mb-3">
-        <option value="">Pilih Bidang</option>
-      </select>
-      <select id="rincian" name="rincian" class="w-full border rounded px-3 py-2 mb-3">
-        <option value="">Pilih Rincian</option>
-      </select>
-      <input type="text" id="deskripsi" name="deskripsi" placeholder="Deskripsi belanja" class="w-full border rounded px-3 py-2 mb-3" />
-      <input type="number" id="jumlah" name="jumlah" placeholder="Jumlah" class="w-full border rounded px-3 py-2 mb-4" />
-      <input type="hidden" id="id_rekening" name="id_rekening">
-      <select id="nama_bank" name="nama_bank" class="w-full border rounded px-3 py-2 mb-3">
-        <option value="">Pilih Bank</option>
-      </select>
-      <div class="flex justify-end gap-2">
-        <button type="button" onclick="closeForm()" class="px-4 py-2">Batal</button>
-        <button class="bg-blue-600 text-white px-4 py-2 rounded">
-          Simpan
-        </button>
-      </div>
-    </form>
+
+    <!-- HEADER FIXED -->
+    <div class="p-2 border-b sticky top-0 bg-white z-10">
+      <h2 class="text-xl font-bold">Form Aset</h2>
+    </div>
+
+    <!-- content -->
+    <div class="p-6 overflow-y-auto">
+      <form id="formAset" class="grid grid-cols-2 gap-4">
+        <?= csrf_field(); ?>
+
+        <input type="hidden" id="id_aset" name="id_aset">
+
+        <!-- Nama Aset -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Nama Aset</label>
+          <input type="text" id="nama_aset" name="nama_aset"
+            placeholder="Masukkan nama aset"
+            class="w-full border rounded-lg px-3 py-2" />
+        </div>
+
+        <!-- Jenis Aset -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Jenis Aset</label>
+          <select id="jenis_aset" name="jenis_aset"
+            class="w-full border rounded-lg px-3 py-2">
+            <option value="Kendaraan">Kendaraan</option>
+            <option value="Bangunan">Bangunan</option>
+            <option value="Tanah">Tanah</option>
+            <option value="Peralatan">Peralatan</option>
+            <option value="Mesin">Mesin</option>
+            <option value="Peralatan Lainnya">Peralatan Lainnya</option>
+          </select>
+        </div>
+
+        <!-- Jumlah -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Jumlah</label>
+          <input type="number" id="jumlah" name="jumlah"
+            placeholder="Masukkan jumlah"
+            class="w-full border rounded-lg px-3 py-2" />
+        </div>
+
+        <!-- Satuan -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Satuan</label>
+          <input type="text" id="satuan" name="satuan"
+            placeholder="Contoh: Unit, Buah, Meter"
+            class="w-full border rounded-lg px-3 py-2" />
+        </div>
+
+        <!-- Cara Perolehan -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Cara Perolehan</label>
+          <select id="cara_perolehan" name="cara_perolehan"
+            class="w-full border rounded-lg px-3 py-2">
+            <option value="Pembelian">Pembelian</option>
+            <option value="Hibah">Hibah</option>
+            <option value="Warisan">Warisan</option>
+            <option value="Bagi Hasil">Bagi Hasil</option>
+          </select>
+        </div>
+
+        <!-- Tahun Perolehan -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Tahun Perolehan</label>
+          <input type="date" id="tahun_perolehan" name="tahun_perolehan"
+            class="w-full border rounded-lg px-3 py-2" />
+        </div>
+
+        <!-- Lokasi -->
+        <div class="col-span-2">
+          <label class="block text-sm font-medium mb-1">Lokasi</label>
+          <input type="text" id="lokasi" name="lokasi"
+            placeholder="Lokasi aset"
+            class="w-full border rounded-lg px-3 py-2" />
+        </div>
+
+        <!-- Detail -->
+        <div class="col-span-2">
+          <label class="block text-sm font-medium mb-1">Detail Aset</label>
+          <textarea id="detail" name="detail"
+            rows="3"
+            placeholder="Deskripsi atau keterangan tambahan"
+            class="w-full border rounded-lg px-3 py-2"></textarea>
+        </div>
+
+        <!-- Nilai Perolehan -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Nilai Perolehan</label>
+          <div class="relative">
+            <span class="absolute left-3 top-2.5 text-gray-400">Rp</span>
+            <input
+              type="text"
+              id="nilai_perolehan"
+              name="nilai_perolehan"
+              class="w-full border rounded-lg pl-10 pr-3 py-2"
+              placeholder="0"
+              oninput="formatRupiah1(this)" />
+          </div>
+        </div>
+
+        <!-- Nilai Sekarang -->
+        <div>
+          <label class="block text-sm font-medium mb-1">Nilai Sekarang</label>
+          <div class="relative">
+            <span class="absolute left-3 top-2.5 text-gray-400">Rp</span>
+            <input
+              type="text"
+              id="nilai_sekarang"
+              name="nilai_sekarang"
+              class="w-full border rounded-lg pl-10 pr-3 py-2"
+              placeholder="0"
+              oninput="formatRupiah1(this)" />
+          </div>
+        </div>
+
+        <!-- Button -->
+        <div class="col-span-2 flex justify-end gap-3 mt-4">
+          <button type="button" onclick="closeForm()"
+            class="px-4 py-2 border rounded-lg">
+            Batal
+          </button>
+          <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
+            Simpan
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+
   </div>
 </div>
 
@@ -140,29 +248,33 @@
   const openLogout = () => modalLogout.classList.remove("hidden");
   const closeLogout = () => modalLogout.classList.add("hidden");
 
+  // membuka modal form aset
+  function openForm() {
+    document.getElementById('modal-tambah-aset').classList.remove('hidden');
+  }
+
+  //menutup modal form aset
+  function closeForm() {
+    document.getElementById('modal-tambah-aset').classList.add('hidden');
+  }
+
   //reset form untuk mengosongkan inputan
   function resetForm() {
-    document.getElementById('formTransaksi').reset();
+    document.getElementById('formAset').reset();
 
-    document.getElementById('id_transaksi').value = '';
-    document.getElementById('id_rekening').value = '';
-    document.getElementById('deskripsi').value = '';
+    document.getElementById('id_aset').value = '';
+    document.getElementById('nama_aset').value = '';
+    document.getElementById('jenis_aset').value = '';
     document.getElementById('jumlah').value = '';
-    document.getElementById('bidang').value = '';
-    document.getElementById('jenis').value = '';
-    document.getElementById('rincian').value = '';
-    document.getElementById('id_rencana').value = '';
+    document.getElementById('satuan').value = '';
+    document.getElementById('cara_perolehan').value = '';
+    document.getElementById('tahun_perolehan').value = '';
+    document.getElementById('lokasi').value = '';
+    document.getElementById('detail').value = '';
+    document.getElementById('nilai_perolehan').value = '';
+    document.getElementById('nilai_sekarang').value = '';
   }
 
-  // membuka modal form transaksi
-  function openForm() {
-    document.getElementById('modal-tambah-transaksi').classList.remove('hidden');
-  }
-
-  //menutup modal form transaksi
-  function closeForm() {
-    document.getElementById('modal-tambah-transaksi').classList.add('hidden');
-  }
 
   //membuka modal hapus data
   function openDelete() {
@@ -174,442 +286,343 @@
     document.getElementById('modalDelete').classList.add('hidden');
   }
 
+  function formatRupiah1(input) {
+    let angka = input.value.replace(/[^0-9]/g, '');
+    let format = new Intl.NumberFormat('id-ID').format(angka);
+    input.value = format;
+  }
+
+  function fetchTotalAset() {
+    fetch(`<?= base_url('aset/totalNilai') ?>`)
+      .then(res => res.json())
+      .then(res => {
+        document.getElementById('totalAset').innerText =
+          'Rp ' + Number(res.total).toLocaleString('id-ID');
+      });
+  }
+
+  fetchTotalAset();
+
   // // format warna saldo transaksi
   // function warnaSaldo(jenis) {
-  //   if (jenis == 'Penghasilan') return 'text-green-600';
-  //   if (jenis == 'Pengeluaran') return 'text-red-600';
-  //   if (jenis == 'Rencana') return 'text-blue-600';
-  //   return 'text-gray-500';
+  // if (jenis == 'Penghasilan') return 'text-green-600';
+  // if (jenis == 'Pengeluaran') return 'text-red-600';
+  // if (jenis == 'Rencana') return 'text-blue-600';
+  // return 'text-gray-500';
   // }
 
   // // format rupiah untuk data jumlah transaksi
   // function formatRupiah(n) {
-  //   if (!n) return '-';
-  //   return 'Rp ' + Number(n).toLocaleString('id-ID');
+  // if (!n) return '-';
+  // return 'Rp ' + Number(n).toLocaleString('id-ID');
   // }
 
-  // //mengambil data pada halaman index dengan ajax
-  // let currentPage = 1;
+  //mengambil data pada halaman index dengan ajax
+  let currentPage = 1;
 
-  // function fetchTransaksi(page = 1) {
-  //   currentPage = page;
+  function fetchAset(page = 1) {
+    currentPage = page;
 
-  //   const perPage = document.getElementById('perPage').value;
-  //   const keyword = document.getElementById('search').value;
-  //   const bidang = document.getElementById('filterBidang').value;
+    const perPage = document.getElementById('perPage').value;
+    const keyword = document.getElementById('search').value;
+    const jenis = document.getElementById('filterAset').value;
 
-  //   fetch(`<?= base_url('transaksi/data') ?>?page_transaksi=${page}&perPage=${perPage}&keyword=${keyword}&bidang=${bidang}`)
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       renderTable(res.data);
-  //       renderPagination(res.totalPage, res.current);
-  //     });
-  // }
+    fetch(`<?= base_url('aset/data') ?>?page_aset=${page}&perPage=${perPage}&keyword=${keyword}&jenis=${jenis}`)
+      .then(res => res.json())
+      .then(res => {
+        renderTable(res.data);
+        renderPagination(res.totalPage, res.current);
+      });
+  }
 
-  // // menampilkan data tabel dengan ajax
-  // function renderTable(data) {
-  //   const tbody = document.getElementById('transaksiBody');
-  //   tbody.innerHTML = '';
+  // menampilkan data tabel dengan ajax
+  function renderTable(data) {
+    const tbody = document.getElementById('asetBody');
+    tbody.innerHTML = '';
 
-  //   data.forEach(item => {
-  //     tbody.innerHTML += `
-  //     <tr class="border-t">
-  //       <td class="p-3">${item.tanggal}</td>
-  //       <td class="p-3">${item.jenis}</td>
-  //       <td class="p-3">${item.bidang}</td>
-  //       <td class="p-3">${item.rincian}</td>
-  //       <td class="p-3">${item.deskripsi}</td>
-  //       <td class="p-3 text-center">${item.nama_bank}</td>
-  //       <td class="p-3 text-center ${warnaSaldo(item.jenis)}">${formatRupiah(item.jumlah)}</td>
-  //       <td class="p-3 text-center">
-  //         <div class="flex justify-center gap-3">
-  //           <button class="text-green-600" 
-  //           onclick="editTransaksi(${item.id_transaksi})">
-  //             <i class="fa fa-pen"></i>
-  //           </button>
-  //           <button onclick="hapusTransaksi(${item.id_transaksi})" 
-  //           class="text-red-600">
-  //             <i class="fa fa-trash"></i>
-  //           </button>
-  //         </div>
-  //       </td>
-  //     </tr>
-  //   `;
-  //   });
-  // }
+    data.forEach(item => {
+      tbody.innerHTML += `
+  <tr class="border-t">
+  <td class="p-3">${item.nama_aset}</td>
+  <td class="p-3">${item.jenis_aset}</td>
+  <td class="p-3">${item.jumlah}</td>
+  <td class="p-3">${item.satuan}</td>
+  <td class="p-3">${item.cara_perolehan}</td>
+  <td class="p-3 text-center">${item.tahun_perolehan}</td>
+  <td class="p-3 text-center ">${item.detail}</td>
+  <td class="p-3 text-center">Rp. ${Number(item.nilai_perolehan).toLocaleString('id-ID')}</td>
+  <td class="p-3 text-center">
+  <div class="flex justify-center gap-3">
+  <button class="text-green-600"
+  onclick="editAset(${item.id_aset})">
+  <i class="fa fa-pen"></i>
+  </button>
+  <button onclick="hapusAset(${item.id_aset})"
+  class="text-red-600">
+  <i class="fa fa-trash"></i>
+  </button>
+  </div>
+  </td>
+  </tr>
+  `;
+    });
+  }
 
-  // //merender pagination
-  // function renderPagination(total, current) {
-  //   const el = document.getElementById('pagination');
-  //   el.innerHTML = '';
+  //merender pagination
+  function renderPagination(total, current) {
+    const el = document.getElementById('pagination');
+    el.innerHTML = '';
 
-  //   if (total <= 1) return;
+    if (total <= 1) return;
 
-  //   const createBtn = (label, page, disabled = false, active = false) => {
-  //     return `
-  //     <button
-  //       ${disabled ? 'disabled' : ''}
-  //       onclick="${!disabled ? `fetchTransaksi(${page})` : ''}"
-  //       class="
-  //         px-3 py-1 border rounded
-  //         text-sm
-  //         transition
-  //         ${active ? 'bg-blue-600 text-white cursor-default' : 'hover:bg-gray-100'}
-  //         ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-  //       ">
-  //       ${label}
-  //     </button>
-  //   `;
-  //   };
+    const createBtn = (label, page, disabled = false, active = false) => {
+      return `
+  <button ${disabled ? 'disabled' : '' } onclick="${!disabled ? `fetchAset(${page})` : ''}" class="px-3 py-1 border rounded text-sm transition ${active ? 'bg-blue-600 text-white cursor-default' : 'hover:bg-gray-100'} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}"> ${label}
+  </button>
+  `;
+    };
 
-  //   /* PREV */
-  //   el.innerHTML += createBtn(
-  //     '‹',
-  //     current - 1,
-  //     current === 1
-  //   );
+    /* PREV */
+    el.innerHTML += createBtn(
+      '‹',
+      current - 1,
+      current === 1
+    );
 
-  //   const range = 2; // jumlah halaman kiri-kanan
-  //   let start = Math.max(1, current - range);
-  //   let end = Math.min(total, current + range);
+    const range = 2; // jumlah halaman kiri-kanan
+    let start = Math.max(1, current - range);
+    let end = Math.min(total, current + range);
 
-  //   if (start > 1) {
-  //     el.innerHTML += createBtn(1, 1);
-  //     if (start > 2) el.innerHTML += `<span class="px-2 py-1">…</span>`;
-  //   }
+    if (start > 1) {
+      el.innerHTML += createBtn(1, 1);
+      if (start > 2) el.innerHTML += `<span class="px-2 py-1">…</span>`;
+    }
 
-  //   for (let i = start; i <= end; i++) {
-  //     el.innerHTML += createBtn(i, i, false, i === current);
-  //   }
+    for (let i = start; i <= end; i++) {
+      el.innerHTML += createBtn(i, i, false, i === current);
+    }
 
-  //   if (end < total) {
-  //     if (end < total - 1) el.innerHTML += `<span class="px-2 py-1">…</span>`;
-  //     el.innerHTML += createBtn(total, total);
-  //   }
+    if (end < total) {
+      if (end < total - 1) el.innerHTML += `<span class="px-2 py-1">…</span>`;
+      el.innerHTML += createBtn(total, total);
+    }
 
-  //   /* NEXT */
-  //   el.innerHTML += createBtn(
-  //     '›',
-  //     current + 1,
-  //     current === total
-  //   );
-  // }
+    /* NEXT */
+    el.innerHTML += createBtn(
+      '›',
+      current + 1,
+      current === total
+    );
+  }
 
-  // document.getElementById('search').addEventListener('keyup', () => {
-  //   fetchTransaksi(1);
-  // });
+  document.getElementById('search').addEventListener('keyup', () => {
+    fetchAset(1);
+  });
 
-  // document.getElementById('filterBidang').addEventListener('change', () => {
-  //   fetchTransaksi(1);
-  // });
+  document.getElementById('filterAset').addEventListener('change', () => {
+    fetchAset(1);
+  });
 
-  // document.getElementById('perPage').addEventListener('change', () => {
-  //   fetchTransaksi(1);
-  // });
+  document.getElementById('perPage').addEventListener('change', () => {
+    fetchAset(1);
+  });
 
-  // // initial load untuk memuat data transaksi
-  // fetchTransaksi();
+  // initial load untuk memuat data transaksi
+  fetchAset();
 
-  // //mengedit data
-  // async function editTransaksi(id) {
-  //   const response = await fetch(`<?= base_url('transaksi/show') ?>/${id}`);
-  //   const res = await response.json();
+  //mengedit data
+  async function editAset(id) {
+    const response = await fetch(`<?= base_url('aset/show') ?>/${id}`);
+    const res = await response.json();
 
-  //   console.log(res);
+    console.log(res);
 
-  //   openForm();
+    openForm();
 
-  //   // isi dulu yang tidak tergantung dropdown
-  //   document.getElementById('id_transaksi').value = res.id_transaksi;
-  //   document.getElementById('tanggal').value = res.tanggal;
-  //   document.getElementById('deskripsi').value = res.deskripsi;
-  //   document.getElementById('jumlah').value = res.jumlah;
+    // isi dulu yang tidak tergantung 
+    document.getElementById('id_aset').value = res.id_aset;
+    document.getElementById('nama_aset').value = res.nama_aset;
+    document.getElementById('jenis_aset').value = res.jenis_aset;
+    document.getElementById('jumlah').value = res.jumlah;
+    document.getElementById('satuan').value = res.satuan;
+    document.getElementById('cara_perolehan').value = res.cara_perolehan;
+    document.getElementById('tahun_perolehan').value = res.tahun_perolehan;
+    document.getElementById('lokasi').value = res.lokasi;
+    document.getElementById('detail').value = res.detail;
+    document.getElementById('nilai_perolehan').value = res.nilai_perolehan;
+    document.getElementById('nilai_sekarang').value = res.nilai_sekarang;
+  }
 
-  //   // ========================
-  //   // SET JENIS + TRIGGER CHANGE
-  //   // ========================
-  //   document.getElementById('jenis').value = res.jenis;
-  //   document.getElementById('jenis').dispatchEvent(new Event('change'));
+  //fungsi tambah atau edit tergantung ada id atau tidak
+  document.getElementById('formAset').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-  //   // tunggu sebentar agar fetch bidang & bank selesai
-  //   await new Promise(resolve => setTimeout(resolve, 300));
+    const id = document.getElementById('id_aset').value;
 
-  //   // ========================
-  //   // SET BIDANG
-  //   // ========================
-  //   document.getElementById('bidang').value = res.bidang;
-  //   document.getElementById('bidang').dispatchEvent(new Event('change'));
+    const url = id ?
+      `<?= base_url('aset/update') ?>/${id}` :
+      `<?= base_url('aset') ?>`;
 
-  //   await new Promise(resolve => setTimeout(resolve, 300));
+    const formData = new FormData(this);
 
-  //   // ========================
-  //   // SET RINCIAN & BANK
-  //   // ========================
-  //   document.getElementById('rincian').value = res.rincian;
-  //   document.getElementById('nama_bank').value = res.id_rekening;
+    // bersihkan format rupiah
+    formData.set('nilai_perolehan',
+      document.getElementById('nilai_perolehan').value.replace(/\D/g, '')
+    );
 
-  //   document.getElementById('id_rekening').value = res.id_rekening;
-  //   document.getElementById('id_rencana').value = res.id_rencana;
-  // }
+    formData.set('nilai_sekarang',
+      document.getElementById('nilai_sekarang').value.replace(/\D/g, '')
+    );
 
-  // //kalo jenis berubah input
-  // document.getElementById('jenis').addEventListener('change', function() {
-  //   const jenis = this.value;
+    //biar kalo ada id methodnya berubah jadi PUT bukan POST
+    if (id) {
+      formData.append('_method', 'PUT');
+    }
+    fetch(url, {
+        method: 'POST',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: formData,
+      })
+      .then(res => res.json())
+      .then(res => {
+        // kalau gagal
+        if (!res.status) {
+          let pesan = '';
 
-  //   const bidang = document.getElementById('bidang');
-  //   bidang.innerHTML = '<option value="">Pilih Bidang</option>';
+          if (res.errors) {
+            Object.values(res.errors).forEach(err => {
+              pesan += err + '<br>';
+            });
+          } else {
+            pesan = res.message;
+          }
 
-  //   //bagian bidang
-  //   if (jenis === 'Rencana') {
-  //     //jika yang dipilih investasi/tabungan 
-  //     // ===== BIDANG (STATIC) =====
-  //     bidang.innerHTML = `
-  //     <option value="">Pilih Bidang</option>
-  //     <option value="Tabungan">Tabungan</option>
-  //     <option value="Investasi">Investasi</option>
-  //     <option value="Cadangan">Cadangan</option>
-  //     `;
-  //   } else if (jenis === 'Mutasi') {
-  //     bidang.innerHTML = `
-  //     <option value="">Pilih Bidang</option>
-  //     <option value="Mutasi">Mutasi Rekening</option>
-  //     <option value="Rencana">Rencana & Investasi</option>
-  //     `;
-  //   } else {
-  //     fetch(`<?= base_url('transaksi/kategori') ?>/${jenis}`)
-  //       .then(res => res.json())
-  //       .then(data => {
-  //         data.forEach(item => {
-  //           bidang.innerHTML += `
-  //           <option value="${item.rincian}">
-  //             ${item.rincian}
-  //           </option>
-  //         `;
-  //         });
-  //       });
-  //   }
+          Swal.fire({
+            icon: 'error',
+            title: 'Validasi Gagal',
+            html: pesan
+          });
 
-  //   //bagian rekening
-  //   const bank = document.getElementById('nama_bank');
-  //   bank.innerHTML = '<option value="">Pilih Bank</option>';
-  //   fetch(`<?= base_url('transaksi/rekening') ?>/${jenis}`)
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       data.forEach(item => {
-  //         bank.innerHTML += `
-  //           <option value="${item.id_rekening}">
-  //             ${item.nama_bank} - ${item.prioritas}
-  //           </option>
-  //         `;
-  //       });
-  //     });
-  // });
+          return;
+        }
 
-  // //kalo bidang berubah inputan
-  // document.getElementById('bidang').addEventListener('change', function() {
-  //   const jenis = document.getElementById('jenis').value;
-  //   const bidang = this.value;
-  //   const rincian = document.getElementById('rincian');
+        // 🟢 Kalau sukses baru lanjut
+        closeForm();
 
-  //   rincian.innerHTML = '<option value="">Pilih Rincian</option>';
+        if (id) {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Data Aset berhasil Diedit',
+            showConfirmButton: false,
+            timer: 1700
+          });
+        } else {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Data Aset berhasil Ditambah',
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
 
-  //   // ================== RENCANA ==================
-  //   if (jenis === 'Rencana' && bidang !== '') {
-  //     fetch(`<?= base_url('transaksi/rencana') ?>`)
-  //       .then(res => res.json())
-  //       .then(data => {
-  //         data.forEach(item => {
-  //           rincian.innerHTML += `
-  //                       <option value="${item.deskripsi}" data-id="${item.id_rencana}">
-  //                           ${item.deskripsi}
-  //                       </option>
-  //                   `;
-  //         });
-  //       });
-  //   }
-
-  //   // ================== MUTASI ==================
-  //   else if (jenis === 'Mutasi' && bidang !== '') {
-  //     rincian.innerHTML += `
-  //           <option value="Mutasi">Mutasi Rekening</option>
-  //           <option value="Rencana">Rencana Investasi</option>
-  //       `;
-  //   }
-
-  //   // ================== PENGHASILAN / PENGELUARAN ==================
-  //   else if (bidang !== '') {
-  //     fetch(`<?= base_url('transaksi/rincian') ?>/${encodeURIComponent(bidang)}`)
-  //       .then(res => res.json())
-  //       .then(data => {
-  //         data.forEach(item => {
-  //           rincian.innerHTML += `
-  //                       <option value="${item.deskripsi}">
-  //                           ${item.deskripsi}
-  //                       </option>
-  //                   `;
-  //         });
-  //       });
-  //   }
-  // });
-
-  // //kalo rincian berubah inputan
-  // document.getElementById('rincian').addEventListener('change', function() {
-  //   const selectedOption = this.options[this.selectedIndex];
-  //   const id = selectedOption.dataset.id || '';
-
-  //   document.getElementById('id_rencana').value = id;
-
-  // });
-
-  // // kalo nama bank berubah inputan
-  // document.getElementById('nama_bank').addEventListener('change', function() {
-  //   document.getElementById('id_rekening').value = this.value;
-  // });
-
-  // //fungsi tambah atau edit tergantung ada id atau tidak
-  // document.getElementById('formTransaksi').addEventListener('submit', function(e) {
-  //   e.preventDefault();
-
-  //   const id = document.getElementById('id_transaksi').value;
-
-  //   const url = id ?
-  //     `<?= base_url('transaksi/update') ?>/${id}` :
-  //     `<?= base_url('transaksi/simpan') ?>`;
-
-  //   fetch(url, {
-  //       method: 'POST',
-  //       headers: {
-  //         'X-Requested-With': 'XMLHttpRequest'
-  //       },
-  //       body: new FormData(this)
-  //     })
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       // 🔴 Kalau gagal (termasuk saldo tidak cukup)
-  //       if (!res.status) {
-  //         Swal.fire({
-  //           icon: 'error',
-  //           title: 'Gagal',
-  //           text: res.message
-  //         });
-  //         return; // STOP di sini
-  //       }
-
-  //       // 🟢 Kalau sukses baru lanjut
-  //       closeForm();
-
-  //       if (id) {
-  //         Swal.fire({
-  //           position: 'top-end',
-  //           icon: 'success',
-  //           title: 'Data berhasil Diedit',
-  //           showConfirmButton: false,
-  //           timer: 1700
-  //         });
-  //       } else {
-  //         Swal.fire({
-  //           position: 'top-end',
-  //           icon: 'success',
-  //           title: 'Data berhasil Ditambah',
-  //           showConfirmButton: false,
-  //           timer: 1500
-  //         });
-  //       }
-
-  //       fetchTransaksi(currentPage);
-  //       document.getElementById('formTransaksi').reset();
-  //       document.getElementById('id_transaksi').value = '';
-  //     });
-  // });
+        fetchAset(currentPage);
+        document.getElementById('formAset').reset();
+        document.getElementById('id_aset').value = '';
+      });
+  });
 
   // // MENGHAPUS DATA
   // function deleteTransaksi(id) {
-  //   fetch(`<?= base_url('transaksi/delete') ?>/${id}`, {
-  //       method: 'DELETE',
-  //       headers: {
-  //         'X-Requested-With': 'XMLHttpRequest'
-  //       }
-  //     })
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       if (!res.status) {
-  //         Swal.fire('Gagal', res.message, 'error');
-  //         return;
-  //       }
+  // fetch(`<?= base_url('transaksi/delete') ?>/${id}`, {
+  // method: 'DELETE',
+  // headers: {
+  // 'X-Requested-With': 'XMLHttpRequest'
+  // }
+  // })
+  // .then(res => res.json())
+  // .then(res => {
+  // if (!res.status) {
+  // Swal.fire('Gagal', res.message, 'error');
+  // return;
+  // }
 
-  //       Swal.fire({
-  //         position: 'top-end',
-  //         icon: 'success',
-  //         title: 'Berhasil dihapus',
-  //         showConfirmButton: false,
-  //         timer: 1500
-  //       });
+  // Swal.fire({
+  // position: 'top-end',
+  // icon: 'success',
+  // title: 'Berhasil dihapus',
+  // showConfirmButton: false,
+  // timer: 1500
+  // });
 
-  //       if (document.querySelectorAll('#transaksiBody tr').length === 1 && currentPage > 1) {
-  //         currentPage--;
-  //       }
+  // if (document.querySelectorAll('#transaksiBody tr').length === 1 && currentPage > 1) {
+  // currentPage--;
+  // }
 
-  //       fetchTransaksi(currentPage);
-  //     });
+  // fetchTransaksi(currentPage);
+  // });
   // }
 
   // function hapusTransaksi(id) {
-  //   Swal.fire({
-  //     title: 'Yakin hapus?',
-  //     text: 'Data tidak bisa dikembalikan',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonColor: '#dc2626',
-  //     confirmButtonText: 'Hapus',
-  //     cancelButtonText: 'Batal'
-  //   }).then(result => {
-  //     if (result.isConfirmed) {
-  //       deleteTransaksi(id);
-  //     }
-  //   });
+  // Swal.fire({
+  // title: 'Yakin hapus?',
+  // text: 'Data tidak bisa dikembalikan',
+  // icon: 'warning',
+  // showCancelButton: true,
+  // confirmButtonColor: '#dc2626',
+  // confirmButtonText: 'Hapus',
+  // cancelButtonText: 'Batal'
+  // }).then(result => {
+  // if (result.isConfirmed) {
+  // deleteTransaksi(id);
+  // }
+  // });
   // }
 
   // function confirmDelete() {
-  //   const id = document.getElementById('delete_id').value;
+  // const id = document.getElementById('delete_id').value;
 
-  //   fetch(`<?= base_url('transaksi/delete') ?>/${id}`, {
-  //       method: 'DELETE',
-  //       headers: {
-  //         'X-Requested-With': 'XMLHttpRequest'
-  //       }
-  //     })
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       if (!res.status) {
-  //         alert(res.message);
-  //         return;
-  //       }
+  // fetch(`<?= base_url('transaksi/delete') ?>/${id}`, {
+  // method: 'DELETE',
+  // headers: {
+  // 'X-Requested-With': 'XMLHttpRequest'
+  // }
+  // })
+  // .then(res => res.json())
+  // .then(res => {
+  // if (!res.status) {
+  // alert(res.message);
+  // return;
+  // }
 
-  //       closeDelete();
+  // closeDelete();
 
-  //       if (document.querySelectorAll('#transaksiBody tr').length === 1 && currentPage > 1) {
-  //         currentPage--;
-  //       }
+  // if (document.querySelectorAll('#transaksiBody tr').length === 1 && currentPage > 1) {
+  // currentPage--;
+  // }
 
-  //       fetchRencana(currentPage);
-  //     })
-  //     .catch(err => {
-  //       console.error(err);
-  //       alert('Gagal menghapus data');
-  //     });
+  // fetchRencana(currentPage);
+  // })
+  // .catch(err => {
+  // console.error(err);
+  // alert('Gagal menghapus data');
+  // });
   // }
 
   // //cetak Riwayat Transaksi
   // function exportpdf() {
-  //   const perPage = document.getElementById('perPage').value;
-  //   const keyword = document.getElementById('search').value;
-  //   const bidang = document.getElementById('filterBidang').value;
-  //   const from = document.getElementById('dateFilter1').value;
-  //   const to = document.getElementById('dateFilter2').value;
+  // const perPage = document.getElementById('perPage').value;
+  // const keyword = document.getElementById('search').value;
+  // const bidang = document.getElementById('filterBidang').value;
+  // const from = document.getElementById('dateFilter1').value;
+  // const to = document.getElementById('dateFilter2').value;
 
-  //   const url = `<?= base_url('transaksi/export') ?>?perPage=${perPage}&keyword=${keyword}&bidang=${bidang}&from=${from}&to=${to}`;
+  // const url = `<?= base_url('transaksi/export') ?>?perPage=${perPage}&keyword=${keyword}&bidang=${bidang}&from=${from}&to=${to}`;
 
-  //   window.open(url, '_blank');
+  // window.open(url, '_blank');
   // }
 </script>
 <?= $this->endSection() ?>

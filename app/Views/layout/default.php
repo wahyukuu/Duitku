@@ -67,14 +67,14 @@
     const modalDelete = document.getElementById("modalDelete");
     const modalLogout = document.getElementById("modalLogout");
 
-    const openForm = () => modalForm.classList.remove("hidden");
-    const closeForm = () => modalForm.classList.add("hidden");
+    // const openForm = () => modalForm.classList.remove("hidden");
+    // const closeForm = () => modalForm.classList.add("hidden");
 
-    const openDelete = () => modalDelete.classList.remove("hidden");
-    const closeDelete = () => modalDelete.classList.add("hidden");
+    // const openDelete = () => modalDelete.classList.remove("hidden");
+    // const closeDelete = () => modalDelete.classList.add("hidden");
 
-    const openLogout = () => modalLogout.classList.remove("hidden");
-    const closeLogout = () => modalLogout.classList.add("hidden");
+    // const openLogout = () => modalLogout.classList.remove("hidden");
+    // const closeLogout = () => modalLogout.classList.add("hidden");
 
     new Chart(document.getElementById("chartSaldo"), {
       type: "bar",
