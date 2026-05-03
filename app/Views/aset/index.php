@@ -21,7 +21,7 @@
     <input type="date" id="dateFilter2" name="to" class="border rounded-lg px-3 py-2" />
     <input type="text" id="search" placeholder="Cari aset..." class="border rounded-lg px-3 py-2 w-64">
     <select id="filterAset" name="filterAset" class="border rounded-lg px-3 py-2">
-      <option>Semua Aset</option>
+      <option value="">Semua Aset</option>
       <option value="Kendaraan">Kendaraan</option>
       <option value="Bangunan">Bangunan</option>
       <option value="Tanah">Tanah</option>
@@ -292,31 +292,6 @@
     input.value = format;
   }
 
-  function fetchTotalAset() {
-    fetch(`<?= base_url('aset/totalNilai') ?>`)
-      .then(res => res.json())
-      .then(res => {
-        document.getElementById('totalAset').innerText =
-          'Rp ' + Number(res.total).toLocaleString('id-ID');
-      });
-  }
-
-  fetchTotalAset();
-
-  // // format warna saldo transaksi
-  // function warnaSaldo(jenis) {
-  // if (jenis == 'Penghasilan') return 'text-green-600';
-  // if (jenis == 'Pengeluaran') return 'text-red-600';
-  // if (jenis == 'Rencana') return 'text-blue-600';
-  // return 'text-gray-500';
-  // }
-
-  // // format rupiah untuk data jumlah transaksi
-  // function formatRupiah(n) {
-  // if (!n) return '-';
-  // return 'Rp ' + Number(n).toLocaleString('id-ID');
-  // }
-
   //mengambil data pada halaman index dengan ajax
   let currentPage = 1;
 
@@ -332,6 +307,10 @@
       .then(res => {
         renderTable(res.data);
         renderPagination(res.totalPage, res.current);
+
+        // update total langsung dari response
+        document.getElementById('totalAset').innerText =
+          'Rp ' + Number(res.total).toLocaleString('id-ID');
       });
   }
 
@@ -342,29 +321,29 @@
 
     data.forEach(item => {
       tbody.innerHTML += `
-  <tr class="border-t">
-  <td class="p-3">${item.nama_aset}</td>
-  <td class="p-3">${item.jenis_aset}</td>
-  <td class="p-3">${item.jumlah}</td>
-  <td class="p-3">${item.satuan}</td>
-  <td class="p-3">${item.cara_perolehan}</td>
-  <td class="p-3 text-center">${item.tahun_perolehan}</td>
-  <td class="p-3 text-center ">${item.detail}</td>
-  <td class="p-3 text-center">Rp. ${Number(item.nilai_perolehan).toLocaleString('id-ID')}</td>
-  <td class="p-3 text-center">
-  <div class="flex justify-center gap-3">
-  <button class="text-green-600"
-  onclick="editAset(${item.id_aset})">
-  <i class="fa fa-pen"></i>
-  </button>
-  <button onclick="hapusAset(${item.id_aset})"
-  class="text-red-600">
-  <i class="fa fa-trash"></i>
-  </button>
-  </div>
-  </td>
-  </tr>
-  `;
+      <tr class="border-t">
+      <td class="p-3">${item.nama_aset}</td>
+      <td class="p-3">${item.jenis_aset}</td>
+      <td class="p-3">${item.jumlah}</td>
+      <td class="p-3">${item.satuan}</td>
+      <td class="p-3">${item.cara_perolehan}</td>
+      <td class="p-3 text-center">${item.tahun_perolehan}</td>
+      <td class="p-3 text-center ">${item.detail}</td>
+      <td class="p-3 text-center">Rp. ${Number(item.nilai_perolehan).toLocaleString('id-ID')}</td>
+      <td class="p-3 text-center">
+      <div class="flex justify-center gap-3">
+      <button class="text-green-600"
+      onclick="editAset(${item.id_aset})">
+      <i class="fa fa-pen"></i>
+      </button>
+      <button onclick="hapusAset(${item.id_aset})"
+      class="text-red-600">
+      <i class="fa fa-trash"></i>
+      </button>
+      </div>
+      </td>
+      </tr>
+      `;
     });
   }
 
@@ -535,94 +514,94 @@
       });
   });
 
-  // // MENGHAPUS DATA
-  // function deleteTransaksi(id) {
-  // fetch(`<?= base_url('transaksi/delete') ?>/${id}`, {
-  // method: 'DELETE',
-  // headers: {
-  // 'X-Requested-With': 'XMLHttpRequest'
-  // }
-  // })
-  // .then(res => res.json())
-  // .then(res => {
-  // if (!res.status) {
-  // Swal.fire('Gagal', res.message, 'error');
-  // return;
-  // }
+  // MENGHAPUS DATA
+  function deleteAset(id) {
+    fetch(`<?= base_url('aset') ?>/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (!res.status) {
+          Swal.fire('Gagal', res.message, 'error');
+          return;
+        }
 
-  // Swal.fire({
-  // position: 'top-end',
-  // icon: 'success',
-  // title: 'Berhasil dihapus',
-  // showConfirmButton: false,
-  // timer: 1500
-  // });
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Berhasil dihapus',
+          showConfirmButton: false,
+          timer: 1500
+        });
 
-  // if (document.querySelectorAll('#transaksiBody tr').length === 1 && currentPage > 1) {
-  // currentPage--;
-  // }
+        if (document.querySelectorAll('#asetBody tr').length === 1 && currentPage > 1) {
+          currentPage--;
+        }
 
-  // fetchTransaksi(currentPage);
-  // });
-  // }
+        fetchAset(currentPage);
+      });
+  }
 
-  // function hapusTransaksi(id) {
-  // Swal.fire({
-  // title: 'Yakin hapus?',
-  // text: 'Data tidak bisa dikembalikan',
-  // icon: 'warning',
-  // showCancelButton: true,
-  // confirmButtonColor: '#dc2626',
-  // confirmButtonText: 'Hapus',
-  // cancelButtonText: 'Batal'
-  // }).then(result => {
-  // if (result.isConfirmed) {
-  // deleteTransaksi(id);
-  // }
-  // });
-  // }
+  function hapusAset(id) {
+    Swal.fire({
+      title: 'Yakin hapus?',
+      text: 'Data tidak bisa dikembalikan',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc2626',
+      confirmButtonText: 'Hapus',
+      cancelButtonText: 'Batal'
+    }).then(result => {
+      if (result.isConfirmed) {
+        deleteAset(id);
+      }
+    });
+  }
 
-  // function confirmDelete() {
-  // const id = document.getElementById('delete_id').value;
+  function confirmDelete() {
+    const id = document.getElementById('delete_id').value;
 
-  // fetch(`<?= base_url('transaksi/delete') ?>/${id}`, {
-  // method: 'DELETE',
-  // headers: {
-  // 'X-Requested-With': 'XMLHttpRequest'
-  // }
-  // })
-  // .then(res => res.json())
-  // .then(res => {
-  // if (!res.status) {
-  // alert(res.message);
-  // return;
-  // }
+    fetch(`<?= base_url('aset') ?>/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        }
+      })
+      .then(res => res.json())
+      .then(res => {
+        if (!res.status) {
+          alert(res.message);
+          return;
+        }
 
-  // closeDelete();
+        closeDelete();
 
-  // if (document.querySelectorAll('#transaksiBody tr').length === 1 && currentPage > 1) {
-  // currentPage--;
-  // }
+        if (document.querySelectorAll('#asetBody tr').length === 1 && currentPage > 1) {
+          currentPage--;
+        }
 
-  // fetchRencana(currentPage);
-  // })
-  // .catch(err => {
-  // console.error(err);
-  // alert('Gagal menghapus data');
-  // });
-  // }
+        fetchAset(currentPage);
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Gagal menghapus data');
+      });
+  }
 
-  // //cetak Riwayat Transaksi
-  // function exportpdf() {
-  // const perPage = document.getElementById('perPage').value;
-  // const keyword = document.getElementById('search').value;
-  // const bidang = document.getElementById('filterBidang').value;
-  // const from = document.getElementById('dateFilter1').value;
-  // const to = document.getElementById('dateFilter2').value;
+  //cetak Riwayat Aset
+  function exportpdf() {
+    const perPage = document.getElementById('perPage').value;
+    const keyword = document.getElementById('search').value;
+    const jenis = document.getElementById('filterAset').value;
+    const from = document.getElementById('dateFilter1').value;
+    const to = document.getElementById('dateFilter2').value;
 
-  // const url = `<?= base_url('transaksi/export') ?>?perPage=${perPage}&keyword=${keyword}&bidang=${bidang}&from=${from}&to=${to}`;
+    const url = `<?= base_url('aset/export') ?>?perPage=${perPage}&keyword=${keyword}&jenis=${jenis}&from=${from}&to=${to}`;
 
-  // window.open(url, '_blank');
-  // }
+    window.open(url, '_blank');
+  }
 </script>
 <?= $this->endSection() ?>

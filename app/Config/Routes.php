@@ -43,7 +43,7 @@ $routes->get('/aset/rekening/(:segment)', 'Aset::rekeningByBidang/$1');
 $routes->get('aset/show/(:num)', 'Aset::show/$1');
 $routes->get('aset/saldo/(:num)', 'Aset::saldoRekening/$1');
 $routes->delete('aset/delete/(:num)', 'Aset::delete/$1');
-$routes->get('aset/export', 'Transaksi::exportPDF');
+$routes->get('aset/export', 'Aset::exportPDF');
 $routes->resource('aset');
 
 //controller Transaksi

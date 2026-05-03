@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\AsetModel;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
+use Dompdf\Dompdf;
 
 class Aset extends ResourceController
 {
@@ -41,25 +42,53 @@ class Aset extends ResourceController
         $keyword = $this->request->getGet('keyword');
         $jenis   = $this->request->getGet('jenis');
 
-        // $builder = $this->aset->getAllAset();
+        // 🧱 BASE BUILDER (bersih)
+        $builder = $this->aset->builder();
 
-        if ($jenis && $jenis != 'Semua Aset') {
-            $this->aset->where('jenis_aset', $jenis);
+        // 🔍 FILTER JENIS
+        if (!empty($jenis)) {
+            $builder->where('jenis_aset', $jenis);
         }
 
-        if ($keyword) {
-            $this->aset->groupStart()
+        // 🔍 FILTER KEYWORD
+        if (!empty($keyword)) {
+            $builder->groupStart()
                 ->like('nama_aset', $keyword)
                 ->orLike('jenis_aset', $keyword)
                 ->orLike('tahun_perolehan', $keyword)
                 ->groupEnd();
         }
 
-        $data  = $this->aset->paginate($perPage, 'aset');
-        $pager = $this->aset->pager;
+        // 🧮 TOTAL (CLONE BIAR SAMA FILTER)
+        $totalBuilder = clone $builder;
+        $total = $totalBuilder
+            ->selectSum('nilai_perolehan')
+            ->get()
+            ->getRow()
+            ->nilai_perolehan ?? 0;
+
+        // 📄 DATA + PAGINATION (PAKAI MODEL, BUKAN BUILDER)
+        $model = new \App\Models\AsetModel();
+
+        // apply filter ulang ke model (WAJIB)
+        if (!empty($jenis)) {
+            $model->where('jenis_aset', $jenis);
+        }
+
+        if (!empty($keyword)) {
+            $model->groupStart()
+                ->like('nama_aset', $keyword)
+                ->orLike('jenis_aset', $keyword)
+                ->orLike('tahun_perolehan', $keyword)
+                ->groupEnd();
+        }
+
+        $data  = $model->paginate($perPage, 'aset');
+        $pager = $model->pager;
 
         return $this->response->setJSON([
             'data'      => $data,
+            'total'     => (int) $total,
             'current'   => $pager->getCurrentPage('aset'),
             'totalPage' => $pager->getPageCount('aset')
         ]);
@@ -196,6 +225,89 @@ class Aset extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        if (!$this->request->isAJAX()) {
+            return $this->response->setStatusCode(403);
+        }
+
+        if (!$id) {
+            return $this->response->setJSON([
+                'status'  => false,
+                'message' => 'Data tidak Ditemuka'
+            ]);
+        }
+
+        $this->aset->delete($id);
+        return $this->response->setJSON([
+            'status'  => true,
+            'message' => 'Data berhasil dihapus'
+        ]);
+    }
+
+    public function exportPDF()
+    {
+        helper('tglindo');
+        $request = service('request');
+
+        $keyword = $request->getGet('keyword');
+        $jenis  = $request->getGet('jenis');
+        $from    = $request->getGet('from');
+        $to      = $request->getGet('to');
+
+        $builder = $this->aset->builder();
+
+        // FILTER 🔽
+        if (!empty($keyword)) {
+            $builder->groupStart()
+                ->like('nama_aset', $keyword)
+                ->like('jenis_aset', $keyword)
+                ->like('tahun_perolehan', $keyword)
+                ->orLike('cara_perolehan', $keyword)
+                ->groupEnd();
+        }
+
+        if (!empty($jenis)) {
+            $builder->where('jenis_aset', $jenis);
+        }
+
+        // 📅 FILTER tanggal (opsional)
+        if (!empty($from) && !empty($to)) {
+            $builder->where('tahun_perolehan >=', $from)
+                ->where('tahun_perolehan <=', $to);
+        }
+
+        // 💰 TOTAL (BIAR SAMA DENGAN TABEL)
+        $total1 = (clone $builder)
+            ->selectSum('nilai_perolehan')
+            ->get()
+            ->getRow()
+            ->nilai_perolehan ?? 0;
+        $total2 = (clone $builder)
+            ->selectSum('nilai_sekarang')
+            ->get()
+            ->getRow()
+            ->nilai_sekarang ?? 0;
+
+        $aset = $builder
+            ->orderBy('tahun_perolehan', 'ASC')
+            ->get()
+            ->getResultArray();
+
+        $data = [
+            'aset'  => $aset,
+            'total1' => $total1,
+            'total2' => $total2,
+            'from'  => $from,
+            'to'    => $to
+        ];
+
+        // LOAD VIEW
+        $html = view('aset/pdf_template', $data);
+
+        // DOMPDF
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('F4', 'landscape');
+        $dompdf->render();
+        $dompdf->stream("Daftar Aset.pdf", ["Attachment" => false]);
     }
 }
