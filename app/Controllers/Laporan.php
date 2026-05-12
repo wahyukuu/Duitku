@@ -82,6 +82,11 @@ class Laporan extends BaseController
         $totalHutang = $this->transaksi->totalHutang();
         $totalPiutang = $this->transaksi->totalPiutang();
         $totalRencana = $this->transaksi->totalRencana();
+        $totalAset = $this->aset
+            ->selectSum('nilai_sekarang')
+            ->get()
+            ->getRow()
+            ->nilai_sekarang ?? 0;;
         $totalInvestasi = $this->transaksi->totalInvestasi();
         // $totalAset = $totalSaldo + $totalRencana + $totalInvestasi + $nilaiAsetTetap;
         // $kewajiban = $thutang;

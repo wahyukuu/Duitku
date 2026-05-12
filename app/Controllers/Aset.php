@@ -62,10 +62,10 @@ class Aset extends ResourceController
         // 🧮 TOTAL (CLONE BIAR SAMA FILTER)
         $totalBuilder = clone $builder;
         $total = $totalBuilder
-            ->selectSum('nilai_perolehan')
+            ->selectSum('nilai_sekarang')
             ->get()
             ->getRow()
-            ->nilai_perolehan ?? 0;
+            ->nilai_sekarang ?? 0;
 
         // 📄 DATA + PAGINATION (PAKAI MODEL, BUKAN BUILDER)
         $model = new \App\Models\AsetModel();

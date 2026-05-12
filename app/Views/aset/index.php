@@ -28,6 +28,7 @@
       <option value="Peralatan">Peralatan</option>
       <option value="Mesin">Mesin</option>
       <option value="Peralatan Lainnya">Peralatan Lainnya</option>
+      <option value="Aset Lainnya">Aset Lainnya</option>
     </select>
     <button
       onclick="resetForm(); openForm()"
@@ -112,6 +113,7 @@
             <option value="Peralatan">Peralatan</option>
             <option value="Mesin">Mesin</option>
             <option value="Peralatan Lainnya">Peralatan Lainnya</option>
+            <option value="Aset Lainnya">Aset Lainnya</option>
           </select>
         </div>
 
