@@ -14,7 +14,7 @@
   <div class="flex flex-wrap gap-4 items-end">
     <button
       onclick="resetForm(); openForm('tambah')"
-      class="bg-green-600 text-white px-4 py-2 rounded"
+      class="bg-green-600 text-white px-4 py-2 rounded-lg"
       id="tambah-admin">
       <i class="fa fa-plus"></i> Tambah
     </button>
