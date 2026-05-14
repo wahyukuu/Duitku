@@ -130,7 +130,7 @@
     class="hidden fixed inset-0 bg-black/40 flex items-center justify-center">
     <div class="bg-white p-6 rounded-xl w-full max-w-sm animate-slide">
       <p class="mb-4">Yakin ingin logout?</p>
-      <div class="flex justify-end gap-2">
+      <div class="flex justify-end gap-5">
         <button onclick="closeLogout()">Batal</button>
         <button class="bg-red-600 text-white px-4 py-2 rounded" onclick="window.location.href='<?= base_url('/auth/keluar') ?>'">
           Logout
@@ -140,6 +140,9 @@
   </div>
 
   <script>
+    const openLogout = () => modalLogout.classList.remove("hidden");
+    const closeLogout = () => modalLogout.classList.add("hidden");
+
     function loadTotalBulanIni() {
       fetch("<?= base_url('laporan/total') ?>", {
           headers: {
