@@ -19,7 +19,7 @@
       <i class="fa fa-plus"></i> Tambah
     </button>
 
-    <select id="perPage" class="border rounded px-2 py-2">
+    <select id="perPage" class="border rounded-lg px-2 py-2">
       <option value="5">5</option>
       <option value="10">10</option>
     </select>
@@ -28,9 +28,9 @@
       type="text"
       id="search"
       placeholder="Cari admin..."
-      class="border rounded px-3 py-2 w-64">
+      class="border rounded-lg px-3 py-2 w-64">
 
-    <select id="filterJenis" class="border rounded px-2 py-2">
+    <select id="filterJenis" class="border rounded-lg px-2 py-2">
       <option value="">Semua Jenis</option>
       <option value="Admin">Admin</option>
       <option value="Biasa">User Biasa</option>
@@ -78,7 +78,7 @@
       <?= csrf_field(); ?>
       <input type="hidden" id="id_admin" name="id_admin">
       <input type="text" id="username" name="username" placeholder="username..."
-        class="w-full border rounded px-3 py-2 mb-3">
+        class="w-full border rounded-lg px-3 py-2 mb-3">
       <small id="errorUsername" class="text-red-500"></small>
 
       <div class="relative mb-3">
@@ -87,7 +87,7 @@
           id="password"
           name="password"
           placeholder="Kosongkan jika tidak ingin ubah Password"
-          class="w-full border rounded px-3 py-2 pr-10">
+          class="w-full border rounded-lg px-3 py-2 pr-10">
 
         <button
           type="button"
@@ -122,7 +122,7 @@
         </button>
       </div>
 
-      <select name="level" id="level" class="w-full border rounded px-3 py-2 mb-3">
+      <select name="level" id="level" class="w-full border rounded-lg px-3 py-2 mb-3">
         <option value="">Pilih Level User</option>
         <option value="Admin">Admin</option>
         <option value="Biasa">User Biasa</option>
@@ -131,7 +131,7 @@
       <div class="flex justify-end gap-2">
         <button type="button" onclick="closeForm()">Batal</button>
         <button type="submit"
-          class="bg-blue-600 text-white px-4 py-2 rounded">
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg">
           Simpan
         </button>
       </div>

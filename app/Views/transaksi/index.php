@@ -12,15 +12,15 @@
 
   <!-- FILTER DATA TRANSAKSI -->
   <div class="flex flex-wrap gap-4 items-end">
-    <select id="perPage" class="border rounded px-2 py-2">
+    <select id="perPage" class="border rounded-lg px-2 py-2">
       <option value="8">8</option>
       <option value="10">10</option>
       <option value="25">25</option>
     </select>
-    <input type="date" id="dateFilter1" name="from" class="border rounded px-3 py-2" />
-    <input type="date" id="dateFilter2" name="to" class="border rounded px-3 py-2" />
-    <input type="text" id="search" placeholder="Cari transaksi..." class="border rounded px-3 py-2 w-64">
-    <select id="filterBidang" name="filterBidang" class="border rounded px-3 py-2">
+    <input type="date" id="dateFilter1" name="from" class="border rounded-lg px-3 py-2" />
+    <input type="date" id="dateFilter2" name="to" class="border rounded-lg px-3 py-2" />
+    <input type="text" id="search" placeholder="Cari transaksi..." class="border rounded-lg px-3 py-2 w-64">
+    <select id="filterBidang" name="filterBidang" class="border rounded-lg px-3 py-2">
       <option>Semua Bidang</option>
       <option value="Penghasilan">Penghasilan</option>
       <option value="Pengeluaran">Pengeluaran</option>
@@ -29,18 +29,18 @@
     </select>
     <button
       onclick="resetForm(); openForm()"
-      class="bg-green-600 text-white px-4 py-2 rounded">
+      class="bg-green-600 text-white px-4 py-2 rounded-lg">
       <i class="fa fa-plus"></i> Tambah
     </button>
     <button
       onclick="exportpdf();"
-      class="bg-blue-600 text-white px-4 py-2 rounded">
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg">
       <i class="fa fa-download"></i> Export PDF
     </button>
   </div>
 
   <!-- TABLE -->
-  <div class="overflow-x-auto border rounded-xl shadow-sm">
+  <div class="overflow-x-auto border rounded-lg shadow-sm">
     <table class="w-full text-sm">
       <thead class="bg-gray-100">
         <tr>
@@ -98,7 +98,7 @@
       </select>
       <div class="flex justify-end gap-2">
         <button type="button" onclick="closeForm()" class="px-4 py-2">Batal</button>
-        <button class="bg-blue-600 text-white px-4 py-2 rounded">
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">
           Simpan
         </button>
       </div>

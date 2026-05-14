@@ -14,12 +14,12 @@
   <div class="flex flex-wrap gap-4 items-end">
     <button
       onclick="resetForm(); openForm()"
-      class="bg-green-600 text-white px-4 py-2 rounded"
+      class="bg-green-600 text-white px-4 py-2 rounded-lg"
       id="tambah-rekening">
       <i class="fa fa-plus"></i> Tambah
     </button>
 
-    <select id="perPage" class="border rounded px-2 py-1">
+    <select id="perPage" class="border rounded-lg px-2 py-2">
       <option value="8">8</option>
       <option value="10">10</option>
       <option value="25">25</option>
@@ -29,9 +29,9 @@
       type="text"
       id="search"
       placeholder="Cari rekening..."
-      class="border rounded px-3 py-2 w-64">
+      class="border rounded-lg px-3 py-2 w-64">
 
-    <select id="filterJenis" class="border rounded px-2 py-2">
+    <select id="filterJenis" class="border rounded-lg px-2 py-2">
       <option value="">Semua Jenis</option>
       <option value="Operasional">Operasional</option>
       <option value="Tabungan">Tabungan</option>
@@ -41,7 +41,7 @@
 
   </div>
   <!-- TABLE -->
-  <div class="overflow-x-auto border rounded-xl shadow-sm">
+  <div class="overflow-x-auto border rounded-lg shadow-sm">
     <table class="w-full text-sm">
       <thead class="bg-gray-100">
         <tr>
@@ -77,12 +77,12 @@
       <input type="hidden" id="id_rekening">
 
       <input type="text" id="nama_bank" name="nama_bank" placeholder="Nama Bank"
-        class="w-full border rounded px-3 py-2 mb-3">
+        class="w-full border rounded-lg px-3 py-2 mb-3">
       <input type="text" id="no_rekening" name="no_rekening" placeholder="Nomor Rekening"
-        class="w-full border rounded px-3 py-2 mb-3">
+        class="w-full border rounded-lg px-3 py-2 mb-3">
       <input type="text" id="saldo" name="saldo" placeholder="Saldo Awal"
-        class="w-full border rounded px-3 py-2 mb-3">
-      <select name="prioritas" id="prioritas" class="w-full border rounded px-3 py-2 mb-3">
+        class="w-full border rounded-lg px-3 py-2 mb-3">
+      <select name="prioritas" id="prioritas" class="w-full border rounded-lg px-3 py-2 mb-3">
         <option value="">Prioritas Penggunaan</option>
         <option value="Operasional">Operasional</option>
         <option value="Tabungan">Tabungan</option>
@@ -93,7 +93,7 @@
       <div class="flex justify-end gap-2">
         <button type="button" onclick="closeForm()">Batal</button>
         <button type="submit"
-          class="bg-blue-600 text-white px-4 py-2 rounded">
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg">
           Simpan
         </button>
       </div>

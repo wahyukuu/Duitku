@@ -14,11 +14,11 @@
   <div class="flex flex-wrap gap-4 items-end">
     <button
       onclick="resetForm(); loadRekeningPrioritas(); openForm()"
-      class="bg-green-600 text-white px-4 py-2 rounded">
+      class="bg-green-600 text-white px-4 py-2 rounded-lg">
       <i class="fa fa-plus"></i> Tambah
     </button>
 
-    <select id="perPage" class="border rounded px-2 py-2">
+    <select id="perPage" class="border rounded-lg px-2 py-2">
       <option value="8">8</option>
       <option value="10">10</option>
       <option value="25">25</option>
@@ -28,9 +28,9 @@
       type="text"
       id="search"
       placeholder="Cari rencana..."
-      class="border rounded px-3 py-2 w-64">
+      class="border rounded-lg px-3 py-2 w-64">
 
-    <select id="filterJenis" class="border rounded px-2 py-2">
+    <select id="filterJenis" class="border rounded-lg px-2 py-2">
       <option value="">Semua Jenis</option>
       <option value="Pendek">Pendek</option>
       <option value="Menengah">Menengah</option>
@@ -39,7 +39,7 @@
   </div>
 
   <!-- TABLE -->
-  <div class="overflow-x-auto border rounded-xl shadow-sm">
+  <div class="overflow-x-auto border rounded-lg shadow-sm">
     <table class="w-full text-sm">
       <thead class="bg-gray-100">
         <tr>
@@ -76,15 +76,15 @@
 
       <input type="hidden" id="id_rencana">
       <input type="text" id="deskripsi" name="deskripsi" placeholder="Deskripsi Target"
-        class="w-full border rounded px-3 py-2 mb-3">
+        class="w-full border rounded-lg px-3 py-2 mb-3">
       <input type="text" id="target" name="target" placeholder="Jumlah Target"
-        class="w-full border rounded px-3 py-2 mb-3">
+        class="w-full border rounded-lg px-3 py-2 mb-3">
       <input type="hidden" id="id_rekening" name="id_rekening">
-      <select id="nama_bank" name="nama_bank" class="w-full border rounded px-3 py-2 mb-3">
+      <select id="nama_bank" name="nama_bank" class="w-full border rounded-lg px-3 py-2 mb-3">
         <option value="">Pilih Bank</option>
       </select>
       <input type="hidden" id="jlh_sementara" name="jlh_sementara" placeholder="Jumlah Target"
-        class="w-full border rounded px-3 py-2 mb-3">
+        class="w-full border rounded-lg px-3 py-2 mb-3">
       <div class="w-full bg-gray-200 rounded-full h-3 mb-3">
         <div
           id="progressBar"
@@ -96,7 +96,7 @@
       <p class="text-sm text-gray-600 mb-3">
         Progress: <span id="progressText">0%</span>
       </p>
-      <select id="jangka" name="jangka" class="w-full border rounded px-3 py-2 mb-3">
+      <select id="jangka" name="jangka" class="w-full border rounded-lg px-3 py-2 mb-3">
         <option value="">Pilih Waktu Realisasi</option>
         <option value="Pendek">Pendek</option>
         <option value="Menengah">Menengah</option>
@@ -106,7 +106,7 @@
       <div class="flex justify-end gap-2">
         <button type="button" onclick="closeForm()">Batal</button>
         <button type="submit"
-          class="bg-blue-600 text-white px-4 py-2 rounded">
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg">
           Simpan
         </button>
       </div>

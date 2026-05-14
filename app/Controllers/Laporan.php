@@ -17,11 +17,19 @@ class Laporan extends BaseController
     {
         $bulan = (int)date('M');
         $tahun = (int)date('Y');
+        $tAset = $this->aset
+            ->selectSum('nilai_sekarang')
+            ->get()
+            ->getRow()
+            ->nilai_sekarang ?? 0;
+
         $data = [
             'total' => $this->rekening->totalSaldoAllRekening(),
             'masuk' => $this->transaksi->totalByBulanDanBidang('Penghasilan'),
             'keluar' => $this->transaksi->totalByBulanDanBidang('Pengeluaran'),
-            'utama' => $this->rekening->getRekeningPrioritas() //pake rekening BSI
+            'utama' => $this->rekening->getRekeningPrioritas(), //pake rekening BSI
+            'invest' => $this->transaksi->totalInvestasi(),
+            'aset' => $tAset,
             // 'utama' => $this->rekening->countRekeningPrioritas()
         ];
         // dd($data['utama']);

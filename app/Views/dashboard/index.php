@@ -19,7 +19,7 @@
         <i class="fa-solid fa-coins"></i>
       </div>
       <div>
-        <p class="text-sm text-gray-500">Total Saldo</p>
+        <p class="text-sm text-gray-600">Total Saldo</p>
         <h2 class="text-xl font-bold text-blue-600">Rp. <?= rupiah($total) ?></h2>
       </div>
     </div>
@@ -30,7 +30,7 @@
         <i class="fa-solid fa-wallet"></i>
       </div>
       <div>
-        <p class="text-sm text-gray-500">Pendapatan Bulan Ini</p>
+        <p class="text-sm text-gray-600">Pendapatan Bulan Ini</p>
         <h2 id="masuk" class="text-xl font-bold text-green-600"></h2>
       </div>
     </div>
@@ -41,7 +41,7 @@
         <i class="fa-solid fa-cart-shopping"></i>
       </div>
       <div>
-        <p class="text-sm text-gray-500">Pengeluaran Bulan Ini</p>
+        <p class="text-sm text-gray-600">Pengeluaran Bulan Ini</p>
         <h2 id="keluar" class="text-xl font-bold text-red-600"></h2>
       </div>
     </div>
@@ -52,7 +52,7 @@
         <i class="fa-solid fa-money-check"></i>
       </div>
       <div>
-        <p class="text-sm text-gray-500">Rekening Utama</p>
+        <p class="text-sm text-gray-600">Rekening Utama</p>
         <h2 class="text-xl font-bold text-orange-600">Rp. <?= rupiah($utama['saldo']) ?></h2>
       </div>
     </div>
@@ -73,7 +73,7 @@
           <form action="" method="get" class="flex items-center gap-3">
             <select id="perPage" name="perPage"
               onchange="this.form.submit()"
-              class="border rounded px-2 py-2">
+              class="border rounded-lg px-2 py-2">
               <option value="5" <?= ($perPage == 5) ? 'selected' : '' ?>>5</option>
               <option value="10" <?= ($perPage == 10) ? 'selected' : '' ?>>10</option>
               <option value="15" <?= ($perPage == 15) ? 'selected' : '' ?>>15</option>
@@ -136,7 +136,7 @@
 <div id="modalLogout" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center">
   <div class="bg-white p-6 rounded-xl w-full max-w-sm animate-slide">
     <p class="mb-4">Yakin ingin logout?</p>
-    <div class="flex justify-end gap-2"> <button onclick="closeLogout()">Batal</button> <button class="bg-red-600 text-white px-4 py-2 rounded" onclick="window.location.href='<?= base_url('/auth/keluar') ?>'"> Logout </button> </div>
+    <div class="flex justify-end gap-5"> <button onclick="closeLogout()">Batal</button> <button class="bg-red-600 text-white px-4 py-2 rounded-lg" onclick="window.location.href='<?= base_url('/auth/keluar') ?>'"> Logout </button> </div>
   </div>
 </div>
 

@@ -14,12 +14,12 @@
   <div class="flex flex-wrap gap-4 items-end">
     <button
       onclick="resetForm(); openForm()"
-      class="bg-green-600 text-white px-4 py-2 rounded"
+      class="bg-green-600 text-white px-4 py-2 rounded-lg"
       id="tambah-kategori">
       <i class="fa fa-plus"></i> Tambah
     </button>
 
-    <select id="perPage" class="border rounded px-2 py-2">
+    <select id="perPage" class="border rounded-lg px-2 py-2">
       <option value="10">10</option>
       <option value="15">15</option>
       <option value="25">25</option>
@@ -31,9 +31,9 @@
       id="search"
       name="search"
       placeholder="Cari kategori..."
-      class="border rounded px-3 py-2 w-64">
+      class="border rounded-lg px-3 py-2 w-64">
 
-    <select id="filterJenis" class="border rounded px-2 py-2">
+    <select id="filterJenis" class="border rounded-lg px-2 py-2">
       <option value="">Semua Jenis</option>
       <option value="Penghasilan">Penghasilan</option>
       <option value="Pengeluaran">Pengeluaran</option>
@@ -48,7 +48,7 @@
       $param = '';
     }
     ?>
-    <a class="bg-blue-500 text-white px-4 py-2 rounded" href="/kategori/exportxls<?= $param; ?>">
+    <a class="bg-blue-500 text-white px-4 py-2 rounded-lg" href="/kategori/exportxls<?= $param; ?>">
       <i class="fas fa-download"></i>
       Export
     </a>
@@ -62,7 +62,7 @@
   <?php endif; ?>
 
   <!-- TABLE -->
-  <div class="overflow-x-auto border rounded-xl shadow-sm">
+  <div class="overflow-x-auto border rounded-lg shadow-sm">
     <table class="w-full text-sm">
       <thead class="bg-gray-100">
         <tr>
@@ -94,28 +94,28 @@
     <form id="formKategori">
       <?= csrf_field(); ?>
       <input type="hidden" id="id_kategori">
-      <select name="jenis" id="jenis" class="w-full border rounded px-3 py-2 mb-3">
+      <select name="jenis" id="jenis" class="w-full border rounded-lg px-3 py-2 mb-3">
         <option value="">Pilih Jenis</option>
         <option value="Pemasukan">Pemasukan</option>
         <option value="Pengeluaran">Pengeluaran</option>
       </select>
 
-      <select name="bidang" id="bidang" class="w-full border rounded px-3 py-2 mb-3">
+      <select name="bidang" id="bidang" class="w-full border rounded-lg px-3 py-2 mb-3">
         <option value="">Pilih Bidang</option>
         <option value="Penghasilan">Penghasilan</option>
         <option value="Pengeluaran">Pengeluaran</option>
       </select>
 
       <input type="text" id="rincian" name="rincian" placeholder="Rincian"
-        class="w-full border rounded px-3 py-2 mb-3">
+        class="w-full border rounded-lg px-3 py-2 mb-3">
 
       <input type="text" id="deskripsi" name="deskripsi" placeholder="Deskripsi"
-        class="w-full border rounded px-3 py-2 mb-3">
+        class="w-full border rounded-lg px-3 py-2 mb-3">
 
       <div class="flex justify-end gap-2">
         <button type="button" onclick="closeForm()">Batal</button>
         <button type="submit"
-          class="bg-blue-600 text-white px-4 py-2 rounded">
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg">
           Simpan
         </button>
       </div>
