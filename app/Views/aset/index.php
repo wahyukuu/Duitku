@@ -11,7 +11,7 @@
 <div class="pt-20 max-w-7xl mx-auto px-4 space-y-4 animate-fade">
 
   <!-- FILTER DATA ASET -->
-  <div class="flex flex-wrap gap-4 items-end">
+  <div class="flex flex-wrap gap-2 items-end">
     <select id="perPage" class="border rounded-xl px-2 py-2">
       <option value="8">8</option>
       <option value="10">10</option>
@@ -32,19 +32,58 @@
     </select>
     <button
       onclick="resetForm(); openForm()"
-      class="bg-green-600 text-white px-4 py-2 rounded-lg">
-      <i class="fa fa-plus"></i> Tambah Aset
+      class="bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-lg flex items-center gap-2">
+      <i class="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+          <path d="M5 12h14" />
+          <path d="M12 5v14" />
+        </svg>
+      </i> Tambah Aset
     </button>
     <button
       onclick="exportpdf();"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg">
-      <i class="fa fa-download"></i> Export PDF
+      class="bg-blue-600 hover:bg-blue-700 transition text-white px-4 py-2 rounded-lg flex items-center gap-2">
+      <i class="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-up-icon lucide-file-up">
+          <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+          <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+          <path d="M12 12v6" />
+          <path d="m15 15-3-3-3 3" />
+        </svg>
+      </i> Export PDF
     </button>
   </div>
 
-  <div class="p-4 border rounded-xl shadow-sm bg-white w-fit">
-    <p class="text-sm text-gray-500">Total Nilai Aset</p>
-    <h2 id="totalAset" class="text-xl font-bold text-green-600">Rp 0</h2>
+  <div class="p-4 border rounded-xl shadow-sm bg-white w-fit flex items-center gap-4">
+
+    <!-- ICON -->
+    <div class="text-green-600 bg-green-100 p-3 rounded-xl shrink-0">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="w-12 h-12">
+        <path d="M12 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5" />
+        <path d="m16 19 3 3 3-3" />
+        <path d="M18 12h.01" />
+        <path d="M19 16v6" />
+        <path d="M6 12h.01" />
+        <circle cx="12" cy="12" r="2" />
+      </svg>
+    </div>
+    <!-- CONTENT -->
+    <div>
+      <p class="text-sm text-gray-600">
+        Total Nilai Aset
+      </p>
+      <h2 id="totalAset" class="text-2xl font-bold text-green-600">
+        Rp 0
+      </h2>
+    </div>
   </div>
 
   <!-- TABLE -->
@@ -202,7 +241,7 @@
         <!-- Button -->
         <div class="col-span-2 flex justify-end gap-3 mt-4">
           <button type="button" onclick="closeForm()"
-            class="px-4 py-2 border rounded-lg">
+            class="px-4 py-2 border-2 border-red-400 text-red-500 rounded-lg">
             Batal
           </button>
           <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg">

@@ -42,9 +42,11 @@
   </script>
 
   <!-- Icons -->
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    rel="stylesheet" />
+  <!-- Development version -->
+  <!-- <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script> -->
+
+
+  <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" /> -->
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -61,6 +63,9 @@
 
   <!-- CONTENT -->
   <?= $this->renderSection('content') ?>
+
+  <!-- Production version (for icon) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
     const modalForm = document.getElementById("modalForm");

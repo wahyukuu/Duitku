@@ -88,5 +88,5 @@ class Autoload extends AutoloadConfig
      *
      * @var list<string>
      */
-    public $helpers = ['pdf', 'date', 'rupiah', 'tgl_indo'];
+    public $helpers = ['pdf', 'date', 'rupiah', 'tgl_indo', 'menu', 'icon'];
 }

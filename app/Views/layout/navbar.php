@@ -54,7 +54,13 @@
       <button
         onclick="openLogout()"
         class="text-red-600 hover:bg-red-50 px-3 py-2 rounded transition">
-        <i class="fa-solid fa-right-from-bracket"></i>
+        <i class="">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out">
+            <path d="m16 17 5-5-5-5" />
+            <path d="M21 12H9" />
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          </svg>
+        </i>
       </button>
     </ul>
   </div>
@@ -67,7 +73,7 @@
   <div class="bg-white p-6 rounded-xl w-full max-w-sm animate-slide">
     <p class="mb-4">Yakin ingin logout?</p>
     <div class="flex justify-end gap-3">
-      <button class="px-4 py-2 rounded-lg border-2 border-red-500 bg-white hover:bg-gray-200"
+      <button class="px-4 py-2 rounded-lg text-red-500 border-2 border-red-500 bg-white hover:bg-gray-100"
         onclick="closeLogout()">
         Batal
       </button>

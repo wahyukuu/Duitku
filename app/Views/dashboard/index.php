@@ -16,7 +16,12 @@
     <!-- CARD 1 -->
     <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
       <div class="text-blue-600 text-4xl bg-blue-100 p-3 rounded-xl">
-        <i class="fa-solid fa-coins"></i>
+        <i class="">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-icon lucide-wallet">
+            <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
+            <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
+          </svg>
+        </i>
       </div>
       <div>
         <p class="text-sm text-gray-600">Total Saldo</p>
@@ -27,7 +32,16 @@
     <!-- CARD 2 -->
     <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
       <div class="text-green-600 text-4xl bg-green-100 p-3 rounded-xl">
-        <i class="fa-solid fa-wallet"></i>
+        <i class="">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote-arrow-down-icon lucide-banknote-arrow-down">
+            <path d="M12 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5" />
+            <path d="m16 19 3 3 3-3" />
+            <path d="M18 12h.01" />
+            <path d="M19 16v6" />
+            <path d="M6 12h.01" />
+            <circle cx="12" cy="12" r="2" />
+          </svg>
+        </i>
       </div>
       <div>
         <p class="text-sm text-gray-600">Pendapatan Bulan Ini</p>
@@ -38,7 +52,16 @@
     <!-- CARD 3 -->
     <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
       <div class="text-red-600 text-4xl bg-red-100 p-3 rounded-xl">
-        <i class="fa-solid fa-cart-shopping"></i>
+        <i class="">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote-arrow-up-icon lucide-banknote-arrow-up">
+            <path d="M12 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5" />
+            <path d="M18 12h.01" />
+            <path d="M19 22v-6" />
+            <path d="m22 19-3-3-3 3" />
+            <path d="M6 12h.01" />
+            <circle cx="12" cy="12" r="2" />
+          </svg>
+        </i>
       </div>
       <div>
         <p class="text-sm text-gray-600">Pengeluaran Bulan Ini</p>
@@ -49,7 +72,13 @@
     <!-- CARD 4 -->
     <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
       <div class="text-orange-600 text-4xl bg-orange-100 p-3 rounded-xl">
-        <i class="fa-solid fa-money-check"></i>
+        <i class="">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-cent-icon lucide-badge-cent">
+            <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
+            <path d="M12 7v10" />
+            <path d="M15.4 10a4 4 0 1 0 0 4" />
+          </svg>
+        </i>
       </div>
       <div>
         <p class="text-sm text-gray-600">Rekening Utama</p>
@@ -67,7 +96,9 @@
 
       <!-- HEADER -->
       <div class="flex justify-between items-center mb-4">
-        <h2 class="text-lg font-semibold">Transaksi Terakhir</h2>
+        <h2 class="text-lg font-semibold">
+          Transaksi Terakhir
+        </h2>
 
         <div class="flex items-center gap-3">
           <form action="" method="get" class="flex items-center gap-3">
@@ -83,7 +114,13 @@
           <a href="/transaksi"
             class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 transition duration-200">
             Lihat Semua
-            <i class="fa-solid fa-arrow-right"></i>
+            <i class="">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info-icon lucide-info">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 16v-4" />
+                <path d="M12 8h.01" />
+              </svg>
+            </i>
           </a>
         </div>
       </div>

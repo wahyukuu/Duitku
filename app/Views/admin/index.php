@@ -14,9 +14,14 @@
   <div class="flex flex-wrap gap-4 items-end">
     <button
       onclick="resetForm(); openForm('tambah')"
-      class="bg-green-600 text-white px-4 py-2 rounded-lg"
+      class="bg-green-600 text-white px-4 py-2 rounded-lg flex items-center gap-2"
       id="tambah-admin">
-      <i class="fa fa-plus"></i> Tambah
+      <i class="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" f6ll="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+          <path d="M5 12h14" />
+          <path d="M12 5v14" />
+        </svg>
+      </i> Tambah
     </button>
 
     <select id="perPage" class="border rounded-lg px-2 py-2">
@@ -128,8 +133,9 @@
         <option value="Biasa">User Biasa</option>
       </select>
 
-      <div class="flex justify-end gap-2">
-        <button type="button" onclick="closeForm()">Batal</button>
+      <div class="flex justify-end gap-3">
+        <button type="button"
+          class="px-4 py-2 text-red-500 rounded-lg border-2 border-red-500 bg-white hover:bg-gray-200" onclick="closeForm()">Batal</button>
         <button type="submit"
           class="bg-blue-600 text-white px-4 py-2 rounded-lg">
           Simpan

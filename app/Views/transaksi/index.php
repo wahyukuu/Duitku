@@ -29,13 +29,25 @@
     </select>
     <button
       onclick="resetForm(); openForm()"
-      class="bg-green-600 text-white px-4 py-2 rounded-lg">
-      <i class="fa fa-plus"></i> Tambah
+      class="bg-green-600 text-white px-4 py-2 rounded-lg flex item-center gap-1">
+      <i class="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
+          <path d="M5 12h14" />
+          <path d="M12 5v14" />
+        </svg>
+      </i> Tambah
     </button>
     <button
       onclick="exportpdf();"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg">
-      <i class="fa fa-download"></i> Export PDF
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg flex item-center gap-1">
+      <i class="">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-up-icon lucide-file-up">
+          <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
+          <path d="M14 2v5a1 1 0 0 0 1 1h5" />
+          <path d="M12 12v6" />
+          <path d="m15 15-3-3-3 3" />
+        </svg>
+      </i> Export PDF
     </button>
   </div>
 
@@ -97,7 +109,10 @@
         <option value="">Pilih Bank</option>
       </select>
       <div class="flex justify-end gap-2">
-        <button type="button" onclick="closeForm()" class="px-4 py-2">Batal</button>
+        <button type="button" onclick="closeForm()"
+          class="px-4 py-2 rounded-lg text-red-500 border-2 border-red-400 bg-white hover:bg-gray-200">
+          Batal
+        </button>
         <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">
           Simpan
         </button>
