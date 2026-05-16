@@ -124,4 +124,22 @@ class AsetModel extends Model
     {
         return $this->update($id, $data);
     }
+
+    public function totalNilaiAset()
+    {
+        return $this->selectSum('nilai_sekarang')
+            ->get()
+            ->getRow()
+            ->nilai_sekarang ?? 0;
+    }
+
+    public function getByJenisAset($jenis)
+    {
+        $result = $this->selectSum('nilai_sekarang')
+            ->where('jenis_aset', $jenis)
+            ->get()
+            ->getRow();
+
+        return $result->nilai_sekarang ?? 0;
+    }
 }

@@ -55,11 +55,15 @@
     .value {
       text-align: right;
       font-weight: bold;
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .pemasukan {
       color: #16a34a;
+    }
+
+    .ready {
+      color: #f5930b;
     }
 
     .piutang {
@@ -100,6 +104,10 @@
       text-align: center;
       color: #666;
     }
+
+    .page-break {
+      page-break-before: always;
+    }
   </style>
 </head>
 
@@ -136,38 +144,27 @@
   <h3>A. Aset Lancar</h3>
   <table class="summary">
     <tr>
-      <td class="label">Total Piutang Belum Dibayar</td>
+      <td class="label">Piutang</td>
       <td class="value piutang">
-        Rp <?= number_format($piutang, 0, ',', '.') ?>
+        <?= rupiah($piutang); ?>
       </td>
     </tr>
     <tr>
-      <td class="label">Saldo Rekening Operasional</td>
+      <td class="label">Saldo Operasional</td>
       <td class="value operasional">
-        Rp <?= number_format($operasional, 0, ',', '.') ?>
+        <?= rupiah($operasional); ?>
       </td>
     </tr>
     <tr class="saldo-row">
       <td class="label saldo">Saldo Seluruh Rekening</td>
       <td class="value saldo">
-        Rp <?= number_format($saldo, 0, ',', '.') ?>
-      </td>
-    </tr>
-  </table>
-
-  <!-- bagian Rencana/Pembiayaan/Investasi -->
-  <h3>B. Aset Rencana/Investasi</h3>
-  <table class="summary">
-    <tr>
-      <td class="label">Total Rencana</td>
-      <td class="value rencana">
-        Rp <?= number_format($rencana, 0, ',', '.') ?>
+        <?= rupiah($saldo); ?>
       </td>
     </tr>
     <tr>
       <td class="label">Total Investasi</td>
       <td class="value rencana">
-        Rp <?= number_format($investasi, 0, ',', '.') ?>
+        <?= rupiah($investasi); ?>
       </td>
     </tr>
   </table>
@@ -176,33 +173,45 @@
   <h3>B. Aset Tetap</h3>
   <table class="summary">
     <tr>
-      <td class="label">Tanah/Ladang/Sawah</td>
-      <td class="value rencana">
-        Rp <?= number_format($rencana, 0, ',', '.') ?>
-      </td>
-    </tr>
-    <tr>
-      <td class="label">Rumah/Gedung</td>
-      <td class="value rencana">
-        Rp <?= number_format($rencana, 0, ',', '.') ?>
-      </td>
-    </tr>
-    <tr>
       <td class="label">Kendaraan</td>
       <td class="value rencana">
-        Rp <?= number_format($rencana, 0, ',', '.') ?>
+        <?= rupiah($kendaraan); ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Bangunan</td>
+      <td class="value rencana">
+        <?= rupiah($bangunan); ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Tanah</td>
+      <td class="value rencana">
+        <?= rupiah($tanah); ?>
       </td>
     </tr>
     <tr>
       <td class="label">Peralatan</td>
       <td class="value rencana">
-        Rp <?= number_format($rencana, 0, ',', '.') ?>
+        <?= rupiah($peralatan); ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Mesin</td>
+      <td class="value rencana">
+        <?= rupiah($mesin); ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Peralatan Lainnya</td>
+      <td class="value rencana">
+        <?= rupiah($peralatanl); ?>
       </td>
     </tr>
     <tr>
       <td class="label">Aset Lainnya</td>
       <td class="value rencana">
-        Rp <?= number_format($rencana, 0, ',', '.') ?>
+        <?= rupiah($asetl); ?>
       </td>
     </tr>
   </table>
@@ -211,33 +220,35 @@
   <h3>C. Kewajiban</h3>
   <table class="summary">
     <tr>
-      <td class="label">Total Hutang</td>
+      <td class="label">Hutang</td>
       <td class="value hutang">
-        Rp <?= number_format($thutang, 0, ',', '.') ?>
-      </td>
-    </tr>
-    <tr>
-      <td class="label">Total Hutang Belum Dibayar</td>
-      <td class="value hutang">
-        Rp <?= number_format($hutang, 0, ',', '.') ?>
+        <?= rupiah($hutang); ?>
       </td>
     </tr>
 
   </table>
 
+  <div class="page-break"></div>
+
   <!-- bagian ARUS KAS -->
   <h3>D. Arus Kas</h3>
   <table class="summary">
     <tr>
-      <td class="label">Total Penghasilan</td>
+      <td class="label">Penghasilan</td>
       <td class="value pemasukan">
         Rp <?= number_format($pemasukan, 0, ',', '.') ?>
       </td>
     </tr>
     <tr>
-      <td class="label">Total Pengeluaran</td>
+      <td class="label">Pengeluaran</td>
       <td class="value pengeluaran">
         Rp <?= number_format($pengeluaran, 0, ',', '.') ?>
+      </td>
+    </tr>
+    <tr>
+      <td class="label">Saldo Tersedia</td>
+      <td class="value ready">
+        Rp <?= number_format($ready, 0, ',', '.') ?>
       </td>
     </tr>
 
@@ -250,19 +261,19 @@
     <tr class="saldo-row">
       <td class="label saldo">Total Nilai Aset</td>
       <td class="value saldo">
-        Rp <?= number_format($saldo, 0, ',', '.') ?>
+        <?= rupiah($aset); ?>
       </td>
     </tr>
     <tr class="saldo-row">
       <td class="label saldo">Total Kewajiban</td>
       <td class="value saldo">
-        Rp <?= number_format($thutang, 0, ',', '.') ?>
+        <?= rupiah($kewajiban); ?>
       </td>
     </tr>
     <tr class="saldo-row">
-      <td class="label saldo">Total Kekayaan Saat Ini</td>
+      <td class="label saldo">Total Kekayaan</td>
       <td class="value saldo">
-        Rp <?= number_format($saldo, 0, ',', '.') ?>
+        <?= rupiah($kekayaan); ?>
       </td>
     </tr>
   </table>

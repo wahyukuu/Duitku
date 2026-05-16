@@ -17,19 +17,30 @@ class Laporan extends BaseController
     {
         $bulan = (int)date('M');
         $tahun = (int)date('Y');
-        $tAset = $this->aset
-            ->selectSum('nilai_sekarang')
-            ->get()
-            ->getRow()
-            ->nilai_sekarang ?? 0;
+
+        $totalPenghasilan = $this->transaksi->totalByBidang('Penghasilan');
+        $totalPengeluaran = $this->transaksi->totalByBidang('Pengeluaran');
+        $asetTetap = $this->aset->totalNilaiAset();
+        $totalsaldo = $this->rekening->totalSaldoAllRekening();
+        $totalRencana = $this->transaksi->totalRencana();
+        $asetTidakTetap = $totalsaldo + $totalRencana;
+        $totalAset = $asetTetap + $asetTidakTetap;
+        $sisahutang = $this->transaksi->sisaHutang();
+        $sisapiutang = $this->transaksi->sisaPiutang();
 
         $data = [
-            'total' => $this->rekening->totalSaldoAllRekening(),
+            'total' => $totalsaldo,
             'masuk' => $this->transaksi->totalByBulanDanBidang('Penghasilan'),
             'keluar' => $this->transaksi->totalByBulanDanBidang('Pengeluaran'),
             'utama' => $this->rekening->getRekeningPrioritas(), //pake rekening BSI
-            'invest' => $this->transaksi->totalInvestasi(),
-            'aset' => $tAset,
+            'tmasuk' => $totalPenghasilan,
+            'tkeluar' => $totalPengeluaran,
+            'invest' => $this->transaksi->totalRencana(),
+            'aset' => $totalAset,
+            'fixedaset' => $asetTetap,
+            'nfixedaset' => $asetTidakTetap,
+            'hutang'      => (int)$sisahutang,
+            'piutang'     => (int)$sisapiutang,
             // 'utama' => $this->rekening->countRekeningPrioritas()
         ];
         // dd($data['utama']);
@@ -42,16 +53,20 @@ class Laporan extends BaseController
             return redirect()->to('/');
         }
 
-        $pengeluaran = $this->transaksi->totalByBulanDanBidang('Pengeluaran');
         $penghasilan = $this->transaksi->totalByBulanDanBidang('Penghasilan');
-        $sisahutang = $this->transaksi->jlhSisaHutang();
-        $sisapiutang = $this->transaksi->jlhSisaPiutang();
+        $pengeluaran = $this->transaksi->totalByBulanDanBidang('Pengeluaran');
+        $sisahutang = $this->transaksi->sisaHutang();
+        $sisapiutang = $this->transaksi->sisaPiutang();
+        $totalPenghasilan = $this->transaksi->totalByBidang('Penghasilan');
+        $totalPengeluaran = $this->transaksi->totalByBidang('Pengeluaran');
 
         return $this->response->setJSON([
-            'pengeluaran' => $pengeluaran['jumlah'] ?? 0,
-            'penghasilan' => $penghasilan['jumlah'] ?? 0,
-            'hutang' => $sisahutang,
-            'piutang' => $sisapiutang,
+            'pengeluaran' => (int)$pengeluaran,
+            'penghasilan' => (int)$penghasilan,
+            'thasil'      => (int)$totalPenghasilan,
+            'tkeluar'     => (int)$totalPengeluaran,
+            'hutang'      => (int)$sisahutang,
+            'piutang'     => (int)$sisapiutang,
         ]);
     }
 
@@ -61,43 +76,51 @@ class Laporan extends BaseController
         $to     = $this->request->getGet('to');
         $jenis  = $this->request->getGet('jenis');
 
-        $transaksi = $this->transaksi
-            ->where('tanggal >=', $from)
-            ->where('tanggal <=', $to)
-            ->whereNotIn('rincian', ['Mutasi', 'Rencana'])
-            ->findAll();
-
-        $prioritas = $this->rekening->getRekeningPrioritas();
-
-        $sisahutang = $this->transaksi->jlhSisaHutang();
-        $sisapiutang = $this->transaksi->jlhSisaPiutang();
-        $totalSaldo = $this->rekening->totalSaldoAllRekening();
-
+        //ambil data transaksi
+        $transaksi = $this->transaksi->getTotalTransaksi($from, $to);
         $totalPenghasilan = 0;
         $totalPengeluaran = 0;
         $totalRencana = 0;
-
         foreach ($transaksi as $trx) {
             if ($trx['jenis'] == 'Penghasilan') {
-                $totalPenghasilan += $trx['jumlah'];
+                $totalPenghasilan += $trx['jumlah']; //hitung total penghasilan
             } elseif ($trx['jenis'] == 'Pengeluaran') {
-                $totalPengeluaran += $trx['jumlah'];
+                $totalPengeluaran += $trx['jumlah']; //hitung total pengeluaran
             } elseif ($trx['jenis'] == 'Rencana') {
-                $totalRencana += $trx['jumlah'];
+                $totalRencana += $trx['jumlah']; //hitung total rencana/investasi
             }
         }
+        $saldoTersedia = $totalPenghasilan - $totalPengeluaran;
 
-        $totalHutang = $this->transaksi->totalHutang();
+        //total piutang
         $totalPiutang = $this->transaksi->totalPiutang();
+        $sisapiutang = $this->transaksi->sisaPiutang();
+        //rekening prioritas (BSI)
+        $prioritas = $this->rekening->getRekeningPrioritas();
+        //saldo seluruh rekening
+        $totalSaldo = $this->rekening->totalSaldoAllRekening();
+        // total rencana/investasi
         $totalRencana = $this->transaksi->totalRencana();
-        $totalAset = $this->aset
-            ->selectSum('nilai_sekarang')
-            ->get()
-            ->getRow()
-            ->nilai_sekarang ?? 0;;
-        $totalInvestasi = $this->transaksi->totalInvestasi();
-        // $totalAset = $totalSaldo + $totalRencana + $totalInvestasi + $nilaiAsetTetap;
-        // $kewajiban = $thutang;
+
+        // aset tetap
+        $kendaraan = $this->aset->getByJenisAset('Kendaraan');
+        $bangunan = $this->aset->getByJenisAset('Bangunan');
+        $tanah = $this->aset->getByJenisAset('Tanah');
+        $peralatan = $this->aset->getByJenisAset('Peralatan');
+        $mesin = $this->aset->getByJenisAset('Mesin');
+        $peralatanl = $this->aset->getByJenisAset('Peralatan Lainnya');
+        $asetl = $this->aset->getByJenisAset('Aset Lainnya');
+
+        // kewajiban
+        $totalHutang = $this->transaksi->totalHutang();
+        $sisahutang = $this->transaksi->sisaHutang();
+
+        // bagian kekayaan
+        $asetTetap = $this->aset->totalNilaiAset();
+        $kewajiban = $totalHutang;
+        $totalAset = $totalSaldo + $totalRencana + $asetTetap;
+        $totalHarta = $totalAset - $totalHutang;
+
         $data['from'] = $from ?: date('Y-m-01');
         $data['to']   = $to ?: date('Y-m-t');
         $data = [
@@ -105,15 +128,22 @@ class Laporan extends BaseController
             'to' => $to,
             'pemasukan' => $totalPenghasilan,
             'pengeluaran' => $totalPengeluaran,
-            'rencana' => $totalRencana,
+            'ready' => $saldoTersedia,
+            'piutang' => $sisapiutang,
             'operasional' => $prioritas['saldo'],
             'saldo' => $totalSaldo,
-            'thutang' => $totalHutang,
+            'investasi' => $totalRencana,
+            'kendaraan' => $kendaraan,
+            'bangunan' => $bangunan,
+            'tanah' => $tanah,
+            'peralatan' => $peralatan,
+            'mesin' => $mesin,
+            'peralatanl' => $peralatanl,
+            'asetl' => $asetl,
             'hutang' => $sisahutang,
-            'piutang' => $sisapiutang,
-            'rencana' => $totalRencana,
-            'investasi' => $totalInvestasi,
-            // 'kekayaan' => $totalAset - $kewajiban,
+            'aset' => $totalAset,
+            'kewajiban' => $kewajiban,
+            'kekayaan' => $totalHarta,
         ];
 
         helper('tglindo');

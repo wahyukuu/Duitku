@@ -112,6 +112,29 @@ class TransaksiModel extends Model
             ->findAll();
     }
 
+    public function getTotalTransaksi($from, $to)
+    {
+
+        return $this->where('tanggal >=', $from)
+            ->where('tanggal <=', $to)
+            ->whereNotIn('rincian', ['Mutasi', 'Rencana'])
+            ->findAll();;
+    }
+
+    public function totalByBidang($jenis)
+    {
+        $tahun = date('Y');
+        $result = $this->db->table($this->table)
+            ->selectSum('jumlah')
+            ->where('jenis', $jenis)
+            ->whereNotIn('rincian', ['Mutasi', 'Rencana'])
+            ->where('YEAR(tanggal)', $tahun)
+            ->get()
+            ->getRow();
+
+        return (int) ($result->jumlah ?? 0);
+    }
+
     public function totalByBulanDanBidang($jenis)
     {
         $awalBulan  = date('Y-m-01');
@@ -122,7 +145,9 @@ class TransaksiModel extends Model
             ->where('tanggal >=', $awalBulan)
             ->where('tanggal <=', $akhirBulan)
             ->whereNotIn('rincian', ['Mutasi', 'Rencana'])
-            ->first();
+            ->get()
+            ->getRow()
+            ->jumlah ?? 0;
     }
 
     public function getTransaksiJoinRekening()
@@ -195,29 +220,21 @@ class TransaksiModel extends Model
             ->jumlah ?? 0;;
     }
 
-    public function totalInvestasi()
-    {
-        return $this->selectSum('jumlah')
-            ->where('rincian', 'Rencana')
-            ->get()
-            ->getRow()
-            ->jumlah ?? 0;;
-    }
-
     //total jumlah hutang
     public function totalHutang()
     {
-        return $this->selectSum('jumlah')
+        return $this->db->table($this->table)
+            ->selectSum('jumlah')
             ->where('jenis', 'Penghasilan')
             ->where('bidang', 'Penghasilan Non PNS')
             ->where('rincian', 'Hutang')
             ->get()
             ->getRow()
-            ->jumlah ?? 0;;
+            ->jumlah ?? 0;
     }
 
     // hitung sisa hutang yang harus dibayar
-    public function jlhSisaHutang()
+    public function sisaHutang()
     {
         $jenis = 'Penghasilan';
         $bidang = 'Penghasilan Non PNS';
@@ -258,7 +275,7 @@ class TransaksiModel extends Model
     }
 
     // hitung sisa piutang yang belum dibayar orang lain
-    public function jlhSisaPiutang()
+    public function sisaPiutang()
     {
         $jenis = 'Pengeluaran';
         $bidang = 'Hari Tertentu';

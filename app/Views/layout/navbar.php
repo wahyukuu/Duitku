@@ -59,3 +59,27 @@
     </ul>
   </div>
 </nav>
+
+<!-- MODAL LOGOUT -->
+<div
+  id="modalLogout"
+  class="hidden fixed inset-0 bg-black/40 flex items-center justify-center">
+  <div class="bg-white p-6 rounded-xl w-full max-w-sm animate-slide">
+    <p class="mb-4">Yakin ingin logout?</p>
+    <div class="flex justify-end gap-3">
+      <button class="px-4 py-2 rounded-lg border-2 border-red-500 bg-white hover:bg-gray-200"
+        onclick="closeLogout()">
+        Batal
+      </button>
+      <button class="bg-red-500 text-white px-4 py-2 rounded-lg"
+        onclick="window.location.href='<?= base_url('/auth/keluar') ?>'">
+        Logout
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const openLogout = () => modalLogout.classList.remove("hidden");
+  const closeLogout = () => modalLogout.classList.add("hidden");
+</script>
