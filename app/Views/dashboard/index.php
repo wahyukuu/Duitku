@@ -1,6 +1,17 @@
 <!-- merender template layout -->
 <?= $this->extend('layout/default') ?>
 
+<?php
+$chartLabels = [];
+$chartData = [];
+if (!empty($semua_rekening)) {
+    foreach ($semua_rekening as $rek) {
+        $chartLabels[] = $rek['nama_bank'];
+        $chartData[] = $rek['saldo'];
+    }
+}
+?>
+
 <!-- merender title halaman -->
 <?= $this->section('title') ?>
 <title>Dashboard &mdash; DuitKu</title>
@@ -11,11 +22,11 @@
 <div class="pt-24 max-w-7xl mx-auto px-6 space-y-8 animate-fade">
 
   <!-- CARD -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
     <!-- CARD 1 -->
-    <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
-      <div class="text-blue-600 text-4xl bg-blue-100 p-3 rounded-xl">
+    <div class="p-5 bg-gradient-to-br from-blue-600 to-blue-500 border border-blue-400 rounded-3xl shadow-[0_8px_30px_rgba(37,99,235,0.3)] flex items-center gap-4 transform hover:-translate-y-1 hover:shadow-blue-500/50 hover:shadow-xl transition-all duration-300 card-hover glass-card">
+      <div class="text-white text-4xl bg-white/20 p-3 rounded-2xl backdrop-blur-md">
         <i class="">
           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-icon lucide-wallet">
             <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
@@ -24,14 +35,14 @@
         </i>
       </div>
       <div>
-        <p class="text-sm text-gray-600">Total Saldo</p>
-        <h2 class="text-xl font-bold text-blue-600">Rp. <?= rupiah($total) ?></h2>
+        <p class="text-sm text-blue-100 font-medium">Total Saldo</p>
+        <h2 class="text-2xl font-bold text-white tracking-tight">Rp. <?= rupiah($total) ?></h2>
       </div>
     </div>
 
     <!-- CARD 2 -->
-    <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
-      <div class="text-green-600 text-4xl bg-green-100 p-3 rounded-xl">
+    <div class="p-5 bg-white border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex items-center gap-4 transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 glass-card">
+      <div class="text-green-600 text-4xl bg-green-50 p-3 rounded-2xl">
         <i class="">
           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote-arrow-down-icon lucide-banknote-arrow-down">
             <path d="M12 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5" />
@@ -44,14 +55,14 @@
         </i>
       </div>
       <div>
-        <p class="text-sm text-gray-600">Pendapatan Bulan Ini</p>
-        <h2 id="masuk" class="text-xl font-bold text-green-600"></h2>
+        <p class="text-sm text-gray-500 font-medium">Pendapatan Bulan Ini</p>
+        <h2 id="masuk" class="text-xl font-bold text-gray-800 tracking-tight"></h2>
       </div>
     </div>
 
     <!-- CARD 3 -->
-    <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
-      <div class="text-red-600 text-4xl bg-red-100 p-3 rounded-xl">
+    <div class="p-5 bg-white border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex items-center gap-4 transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300 glass-card">
+      <div class="text-red-500 text-4xl bg-red-50 p-3 rounded-2xl">
         <i class="">
           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-banknote-arrow-up-icon lucide-banknote-arrow-up">
             <path d="M12 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5" />
@@ -64,14 +75,14 @@
         </i>
       </div>
       <div>
-        <p class="text-sm text-gray-600">Pengeluaran Bulan Ini</p>
-        <h2 id="keluar" class="text-xl font-bold text-red-600"></h2>
+        <p class="text-sm text-gray-500 font-medium">Pengeluaran Bulan Ini</p>
+        <h2 id="keluar" class="text-xl font-bold text-gray-800 tracking-tight"></h2>
       </div>
     </div>
 
     <!-- CARD 4 -->
-    <div class="p-5 border rounded-2xl shadow-sm flex items-center gap-4 hover:shadow-md transition">
-      <div class="text-orange-600 text-4xl bg-orange-100 p-3 rounded-xl">
+    <div class="p-5 bg-white border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex items-center gap-4 transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+      <div class="text-orange-500 text-4xl bg-orange-50 p-3 rounded-2xl">
         <i class="">
           <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-badge-cent-icon lucide-badge-cent">
             <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z" />
@@ -81,8 +92,8 @@
         </i>
       </div>
       <div>
-        <p class="text-sm text-gray-600">Rekening Utama</p>
-        <h2 class="text-xl font-bold text-orange-600">Rp. <?= rupiah($utama['saldo']) ?></h2>
+        <p class="text-sm text-gray-500 font-medium">Rekening Utama</p>
+        <h2 class="text-xl font-bold text-gray-800 tracking-tight">Rp. <?= rupiah($utama['saldo']) ?></h2>
       </div>
     </div>
 
@@ -95,7 +106,7 @@
     <div class="md:col-span-3 p-6 border rounded-2xl shadow-sm bg-white">
 
       <!-- HEADER -->
-      <div class="flex justify-between items-center mb-4">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
         <h2 class="text-lg font-semibold">
           Transaksi Terakhir
         </h2>
@@ -111,7 +122,7 @@
               <option value="25" <?= ($perPage == 25) ? 'selected' : '' ?>>25</option>
             </select>
           </form>
-          <a href="/transaksi"
+          <a href="<?= base_url('transaksi') ?>"
             class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg shadow hover:bg-blue-600 transition duration-200">
             Lihat Semua
             <i class="">
@@ -127,7 +138,7 @@
 
       <!-- TABLE -->
       <div class="overflow-x-auto">
-        <table class="w-full text-sm border-collapse tabular-nums">
+        <table class="w-full text-sm border-collapse tabular-nums whitespace-nowrap">
 
           <thead>
             <tr class="bg-gray-100 text-gray-600">
@@ -160,11 +171,12 @@
       </div>
     </div>
 
-    <!-- SIDE CARD -->
-    <div class="p-6 border rounded-2xl shadow-sm bg-white flex flex-col justify-center items-center text-center">
-      <p class="text-gray-500 text-sm mb-2">Insight</p>
-      <h3 class="text-lg font-semibold">Keuangan Stabil 👍</h3>
-      <p class="text-sm text-gray-400 mt-2">Pengeluaran masih terkendali bulan ini</p>
+    <!-- SIDE CARD: CHART -->
+    <div class="p-6 bg-white border border-gray-100 rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] flex flex-col h-full">
+      <h3 class="text-lg font-semibold text-gray-800 mb-6">Distribusi Saldo</h3>
+      <div class="flex-grow flex items-center justify-center w-full relative">
+        <canvas id="chartSaldo"></canvas>
+      </div>
     </div>
 
   </div>
@@ -192,5 +204,47 @@
   }
 
   loadTotalBulanIni();
+
+  // Inisialisasi Chart.js
+  const ctx = document.getElementById("chartSaldo");
+  if (ctx) {
+    new Chart(ctx, {
+      type: "doughnut",
+      data: {
+        labels: <?= json_encode($chartLabels) ?>,
+        datasets: [{
+          label: "Saldo (Rp)",
+          data: <?= json_encode($chartData) ?>,
+          backgroundColor: [
+            "#3B82F6", // blue-500
+            "#10B981", // green-500
+            "#F59E0B", // amber-500
+            "#6366F1", // indigo-500
+            "#EC4899", // pink-500
+            "#14B8A6"  // teal-500
+          ],
+          borderWidth: 0,
+          hoverOffset: 6
+        }],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '75%',
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+                usePointStyle: true,
+                padding: 20,
+                font: {
+                    family: "'Plus Jakarta Sans', sans-serif"
+                }
+            }
+          }
+        }
+      }
+    });
+  }
 </script>
 <?= $this->endSection() ?>

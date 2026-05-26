@@ -6,11 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <?= $this->renderSection('title') ?>
 
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
   <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="<?= base_url('css/main.css') ?>">
   <script>
     tailwind.config = {
       theme: {
+        fontFamily: {
+          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        },
         extend: {
           animation: {
             fade: "fadeIn 0.4s ease-in-out",
@@ -57,7 +66,7 @@
 
 </head>
 
-<body class="bg-white text-gray-800">
+<body class="bg-slate-50 text-gray-800 overflow-x-hidden font-sans">
   <!-- NAVBAR -->
   <?= $this->include('layout/navbar') ?>
 
@@ -81,16 +90,6 @@
     // const openLogout = () => modalLogout.classList.remove("hidden");
     // const closeLogout = () => modalLogout.classList.add("hidden");
 
-    new Chart(document.getElementById("chartSaldo"), {
-      type: "bar",
-      data: {
-        labels: ["BCA", "Mandiri", "BRI", "Dana"],
-        datasets: [{
-          label: "Saldo",
-          data: [12500000, 8200000, 5100000, 3750000],
-        }, ],
-      },
-    });
   </script>
 </body>
 

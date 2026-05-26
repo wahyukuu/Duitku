@@ -11,16 +11,18 @@
 <div class="pt-20 max-w-7xl mx-auto px-4 space-y-4 animate-fade">
 
   <!-- FILTER DATA TRANSAKSI -->
-  <div class="flex flex-wrap gap-4 items-end">
-    <select id="perPage" class="border rounded-lg px-2 py-2">
+  <div class="flex flex-col md:flex-row flex-wrap gap-4 md:items-end">
+    <select id="perPage" class="border rounded-lg px-2 py-2 w-full md:w-auto">
       <option value="8">8</option>
       <option value="10">10</option>
       <option value="25">25</option>
     </select>
-    <input type="date" id="dateFilter1" name="from" class="border rounded-lg px-3 py-2" />
-    <input type="date" id="dateFilter2" name="to" class="border rounded-lg px-3 py-2" />
-    <input type="text" id="search" placeholder="Cari transaksi..." class="border rounded-lg px-3 py-2 w-64">
-    <select id="filterBidang" name="filterBidang" class="border rounded-lg px-3 py-2">
+    <div class="flex flex-row gap-2 w-full md:w-auto">
+      <input type="date" id="dateFilter1" name="from" class="border rounded-lg px-3 py-2 w-full" />
+      <input type="date" id="dateFilter2" name="to" class="border rounded-lg px-3 py-2 w-full" />
+    </div>
+    <input type="text" id="search" placeholder="Cari transaksi..." class="border rounded-lg px-3 py-2 w-full md:w-64">
+    <select id="filterBidang" name="filterBidang" class="border rounded-lg px-3 py-2 w-full md:w-auto">
       <option>Semua Bidang</option>
       <option value="Penghasilan">Penghasilan</option>
       <option value="Pengeluaran">Pengeluaran</option>
@@ -29,7 +31,7 @@
     </select>
     <button
       onclick="resetForm(); openForm()"
-      class="bg-green-600 text-white px-4 py-2 rounded-lg flex item-center gap-1">
+      class="bg-green-600 text-white px-4 py-2 rounded-lg flex justify-center items-center gap-1 w-full md:w-auto">
       <i class="">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus">
           <path d="M5 12h14" />
@@ -39,7 +41,7 @@
     </button>
     <button
       onclick="exportpdf();"
-      class="bg-blue-600 text-white px-4 py-2 rounded-lg flex item-center gap-1">
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg flex justify-center items-center gap-1 w-full md:w-auto">
       <i class="">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-up-icon lucide-file-up">
           <path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" />
@@ -53,7 +55,7 @@
 
   <!-- TABLE -->
   <div class="overflow-x-auto border rounded-lg shadow-sm">
-    <table class="w-full text-sm">
+    <table class="w-full text-sm whitespace-nowrap">
       <thead class="bg-gray-100">
         <tr>
           <th class="p-3 text-left">Tanggal</th>
@@ -82,7 +84,7 @@
   class="hidden fixed inset-0 bg-black/40 flex items-center justify-center z-50"
   onclick="closeForm()">
   <div
-    class="bg-white p-6 rounded-xl w-full max-w-md animate-slide"
+    class="bg-white p-6 mx-4 rounded-xl w-full max-w-md animate-slide"
     onclick="event.stopPropagation()">
     <h2 class="font-bold mb-4">Form Transaksi</h2>
     <form action="" id="formTransaksi">
@@ -125,7 +127,7 @@
 <div
   id="modalDelete"
   class="hidden fixed inset-0 bg-black/40 flex items-center justify-center">
-  <div class="bg-white p-6 rounded-xl w-full max-w-sm animate-slide">
+  <div class="bg-white p-6 mx-4 rounded-xl w-full max-w-sm animate-slide">
     <p class="mb-4">Yakin ingin menghapus data?</p>
     <div class="flex justify-end gap-2">
       <button onclick="closeDelete()">Batal</button>

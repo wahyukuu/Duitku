@@ -1,0 +1,71 @@
+/* Custom styles for DuitKu application */
+
+/* Ensure the chart canvas fills its container and is responsive */
+#chartSaldo {
+    width: 100% !important;
+    height: 300px;
+}
+
+/* Dashboard cards responsive grid adjustments */
+@media (max-width: 640px) {
+    .grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+    .grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1025px) {
+    .grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* Adjust card paddings for mobile */
+@media (max-width: 640px) {
+    .p-5 {
+        padding: 1rem;
+    }
+    .p-6 {
+        padding: 1.5rem;
+    }
+}
+
+/* Smooth hover effects for cards */
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    transition: all 0.3s ease;
+}
+
+/* Glassmorphism card style */
+.glass-card {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive chart height */
+@media (max-width: 640px) {
+  #chartSaldo {
+    height: 200px !important;
+  }
+}
+@media (max-width: 640px) {
+  .card-hover { margin-bottom: 1rem; }
+  .text-4xl { font-size: 1.75rem; }
+  .text-2xl { font-size: 1.25rem; }
+  .text-xl { font-size: 1.125rem; }
+  .text-lg { font-size: 1rem; }
+}
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1e293b;
+        color: #e2e8f0;
+    }
+}

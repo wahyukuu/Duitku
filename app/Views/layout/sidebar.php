@@ -49,7 +49,7 @@ $menus = Menu::sidebar();
           <?php if (in_array(session('level'), $menu['role'])) : ?>
 
             <a
-              href="/<?= $menu['url'] ?>"
+              href="<?= base_url($menu['url']) ?>"
               class="flex items-center gap-3 p-3 rounded-lg text-sm transition-all
               <?= isActive($menu['url'])
                 ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-600'

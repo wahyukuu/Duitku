@@ -14,9 +14,16 @@ class Dashboard extends BaseController
      */
     public function index()
     {
-        $bulan = (int)date('M');
+        $bulan = (int)date('m');
         $tahun = (int)date('Y');
-        $perPage = (int)($this->request->getVar('perPage') ?? 5);
+        $perPageRaw = $this->request->getVar('perPage');
+        $perPage = filter_var($perPageRaw, FILTER_VALIDATE_INT);
+        if ($perPage === false || $perPage < 5) {
+            $perPage = 5;
+        }
+        if ($perPage > 50) {
+            $perPage = 50;
+        }
         $data = [
             'total'     => $this->rekening->totalSaldoAllRekening(),
             'masuk'     => $this->transaksi->totalByBulanDanBidang('Penghasilan'),
@@ -24,13 +31,13 @@ class Dashboard extends BaseController
             'utama'     => $this->rekening->getRekeningPrioritas(), //pake rekening BSI
             'transaksi' => $this->transaksi->getTransaksiJoinRekeningLast($perPage),
             'perPage'   => $perPage,
-            // 'utama' => $this->rekening->countRekeningPrioritas()
+            'semua_rekening' => cache()->remember('semua_rekening', 300, fn() => $this->rekening->getAllRekening()),
         ];
         // dd($data['utama']);
         return view('dashboard/index', $data);
     }
 
-    public function getTotalBulanIni()
+    public function getTotalBulanIni(): ResponseInterface
     {
         if (!$this->request->isAJAX()) {
             return redirect()->to('/');
