@@ -117,37 +117,42 @@ class TransaksiModel extends Model
 
         return $this->where('tanggal >=', $from)
             ->where('tanggal <=', $to)
-            ->whereNotIn('rincian', ['Mutasi', 'Rencana'])
-            ->findAll();;
+            ->findAll();
+    }
+
+    public function __construct()
+    {
+        parent::__construct();
+        helper('cache');
     }
 
     public function totalByBidang($jenis)
     {
         $tahun = date('Y');
-        $result = $this->db->table($this->table)
+        $result = cache()->remember('total_by_bidang_' . $jenis, 300, fn() => $this->db->table($this->table)
             ->selectSum('jumlah')
             ->where('jenis', $jenis)
             ->whereNotIn('rincian', ['Mutasi', 'Rencana'])
             ->where('YEAR(tanggal)', $tahun)
             ->get()
-            ->getRow();
-
+            ->getRow());
         return (int) ($result->jumlah ?? 0);
     }
+
 
     public function totalByBulanDanBidang($jenis)
     {
         $awalBulan  = date('Y-m-01');
         $akhirBulan = date('Y-m-t');
 
-        return $this->selectSum('jumlah')
+        return cache()->remember('total_by_bulan_' . $jenis, 300, fn() => $this->selectSum('jumlah')
             ->where('jenis', $jenis)
             ->where('tanggal >=', $awalBulan)
             ->where('tanggal <=', $akhirBulan)
             ->whereNotIn('rincian', ['Mutasi', 'Rencana'])
             ->get()
             ->getRow()
-            ->jumlah ?? 0;
+            ->jumlah ?? 0);
     }
 
     public function getTransaksiJoinRekening()
@@ -159,11 +164,11 @@ class TransaksiModel extends Model
 
     public function getTransaksiJoinRekeningLast($batas)
     {
-        return $this->select('transaksi.*, rekening.nama_bank')
+        return cache()->remember('transaksi_join_rekening_last_' . $batas, 300, fn() => $this->select('transaksi.*, rekening.nama_bank')
             ->join('rekening', 'rekening.id_rekening = transaksi.id_rekening')
             ->orderBy('id_transaksi', 'DESC')
             ->limit($batas)
-            ->findAll();
+            ->findAll());
     }
 
     public function getSaldoByTanggal($id_rek, $tanggal)
@@ -213,24 +218,24 @@ class TransaksiModel extends Model
     //total jumlah rencana/investasi
     public function totalRencana()
     {
-        return $this->selectSum('jumlah')
+        return cache()->remember('total_rencana', 300, fn() => $this->selectSum('jumlah')
             ->where('rincian', 'Rencana')
             ->get()
             ->getRow()
-            ->jumlah ?? 0;;
+            ->jumlah ?? 0);
     }
 
     //total jumlah hutang
     public function totalHutang()
     {
-        return $this->db->table($this->table)
+        return cache()->remember('total_hutang', 300, fn() => $this->db->table($this->table)
             ->selectSum('jumlah')
             ->where('jenis', 'Penghasilan')
             ->where('bidang', 'Penghasilan Non PNS')
             ->where('rincian', 'Hutang')
             ->get()
             ->getRow()
-            ->jumlah ?? 0;
+            ->jumlah ?? 0);
     }
 
     // hitung sisa hutang yang harus dibayar

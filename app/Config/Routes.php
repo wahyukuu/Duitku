@@ -102,3 +102,6 @@ $routes->get('/admin/show/(:num)', 'Admin::show/$1');
 $routes->post('/admin/update/(:num)', 'Admin::updateAjax/$1');
 $routes->delete('/admin/delete/(:num)', 'Admin::delete/$1');
 $routes->resource('admin');
+
+$routes->get('whatsapp/test', 'WhatsApp::sendTest');
+$routes->post('whatsapp/webhook', 'WhatsApp::webhook');
